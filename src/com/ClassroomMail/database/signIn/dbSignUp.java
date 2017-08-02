@@ -8,33 +8,31 @@ import java.sql.PreparedStatement;
 
 public class dbSignUp {
 
-    public static String userSignUp(String companyName, String fullName, String employeeEmailId, String password){
+    public static String userSignUp(String fullName, String emailId, String password){
         Connection con = null;
         PreparedStatement stmt = null;
 
         String userID = getMotherboardSN.getMotherboardSN();
 
-        String query = DBUtils.prepareInsertQuery("classroomwunderlist.company", "companyName ,fullName, employeeEmailId ,password","?,?,?,?");
+        String query = DBUtils.prepareInsertQuery("classroommail.userdetail", "fullName, emailId ,password","?,?,?");
 
-        String updateCurrentUserQuery = DBUtils.prepareInsertQuery("classroomwunderlist.currentuser", "id, companyName, fullName, employeeEmailId", "?,?,?,?");
+        String updateCurrentUserQuery = DBUtils.prepareInsertQuery("classroommail.currentuser", "id, fullName, emailId", "?,?,?");
 
         String status = "ongoing";
 
         try{
             con = DBUtils.getConnection();
             stmt = con.prepareStatement(query);
-            stmt.setString(1, companyName);
-            stmt.setString(2, fullName);
-            stmt.setString(3, employeeEmailId);
-            stmt.setString(4, password);
+            stmt.setString(1, fullName);
+            stmt.setString(2, emailId);
+            stmt.setString(3, password);
             stmt.executeUpdate();
             status="success";
 
             stmt = con.prepareStatement(updateCurrentUserQuery);
             stmt.setString(1, userID);
-            stmt.setString(2, companyName);
-            stmt.setString(3, fullName);
-            stmt.setString(4, employeeEmailId);
+            stmt.setString(2, fullName);
+            stmt.setString(3, emailId);
             stmt.executeUpdate();
         }
         catch(Exception e){

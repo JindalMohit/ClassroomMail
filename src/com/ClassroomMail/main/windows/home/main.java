@@ -1,5 +1,10 @@
 package com.ClassroomMail.main.windows.home;
 
+import com.ClassroomMail.main.functions.getMotherboardSN;
+import com.ClassroomMail.database.logIn.userLoggedIn;
+import com.ClassroomMail.main.templates.loginHome;
+import com.ClassroomMail.main.templates.profile;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -21,13 +26,17 @@ public class main extends Application {
         window=primaryStage;
         window.setTitle("Classroom Mail");
 
-        layout = new BorderPane();
+        String userID = getMotherboardSN.getMotherboardSN();
+        String[] status = userLoggedIn.userLoggedIn(userID);
 
-        scene = new Scene(layout,600,500);
-        window.setScene(scene);
+        if (!status[0].equals("success"))
+            window.setScene(loginHome.homeView());
+        else
+            window.setScene(profile.main(status[1], status[2]));
 
-        scene.getStylesheets().add(main.class.getResource("../../resources/css/main.css").toExternalForm());
         window.getIcons().add(new Image(getClass().getResourceAsStream("../../resources/images/ClassroomMail.png")));
+        window.setMinWidth(850);
+        window.setMinHeight(550);
 
         window.show();
 
