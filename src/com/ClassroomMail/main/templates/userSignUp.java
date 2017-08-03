@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +41,7 @@ public class userSignUp {
         fullName.setFont(Font.font(15));
         fullName.setPromptText("Full Name");
         fullName.setPrefHeight(30);
-        fullName.setStyle("-fx-background-color: transparent; -fx-border-color: #fff; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #fff;");
+        fullName.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
         fullName.focusedProperty().addListener((observable,  oldValue,  newValue) -> {
             if(newValue && firstTime.get()){
                 signUpPane.requestFocus(); // Delegate the focus to container
@@ -52,19 +53,19 @@ public class userSignUp {
         email.setFont(Font.font(15));
         email.setPromptText("Email Id");
         email.setPrefHeight(30);
-        email.setStyle("-fx-background-color: transparent; -fx-border-color: #fff; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #fff;");
+        email.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed; -fx-text-fill: red;");
 
         PasswordField password = new PasswordField();
         password.setFont(Font.font(15));
         password.setPromptText("password");
         password.setPrefHeight(30);
-        password.setStyle("-fx-background-color: transparent; -fx-border-color: #fff; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #fff;");
+        password.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
 
         PasswordField confirmPassword = new PasswordField();
         confirmPassword.setFont(Font.font(15));
         confirmPassword.setPromptText("Confirm password");
         confirmPassword.setPrefHeight(30);
-        confirmPassword.setStyle("-fx-background-color: transparent; -fx-border-color: #fff; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #fff;");
+        confirmPassword.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
 
         Label error = new Label();
         error.setTextFill(Color.web("red"));
@@ -73,7 +74,7 @@ public class userSignUp {
         Button signUpButton = new Button("SignUp");
         signUpButton.setFont(new Font("Cambria", 18));
         signUpButton.setStyle("-fx-focus-color: transparent;-fx-background-color: #6ac045;");
-        signUpButton.setTextFill(Color.web("#fff"));
+        signUpButton.setTextFill(Color.web("#ededed"));
         signUpRow.getChildren().addAll(signUpButton);
         signUpRow.setAlignment(Pos.BASELINE_CENTER);
 
@@ -92,7 +93,7 @@ public class userSignUp {
                 error.setText("Password and confirm password don't match");
             else{
                 status = dbSignUp.userSignUp(fullName.getText(),email.getText(),password.getText());
-                if (status=="success") {
+                if (Objects.equals(status, "success")) {
                     main.window.setScene(profile.main(fullName.getText(), email.getText()));
                 }
                 else

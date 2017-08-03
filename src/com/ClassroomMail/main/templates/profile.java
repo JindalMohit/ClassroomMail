@@ -21,36 +21,36 @@ import javafx.scene.text.Font;
 
 public class profile {
 
-    public static Label fullName;
-    public static VBox lists;
-
     public static Scene scene;
-
-    public static BorderPane optionData = new BorderPane();
-
-    public static String currentUserEmailId;
 
     public static Scene main(String completeName, String emailId){
 
-        currentUserEmailId = emailId;
-        BorderPane profilePane = new BorderPane();
-
+        BorderPane topPane = new BorderPane();
         BorderPane leftPane = new BorderPane();
+        BorderPane centerPane = new BorderPane();
+        BorderPane rightPane = new BorderPane();
+
+        topPane.setMaxHeight(100);
         leftPane.setPrefWidth(220);
+        rightPane.setMaxWidth(400);
 
-        VBox user = new VBox(10);
-        user.setPadding(new Insets(10));
-        user.setAlignment(Pos.TOP_CENTER);
 
-        fullName = new Label(completeName);
-        fullName.setPadding(new Insets(10,0,0,0));
-        fullName.setFont(new Font("Cambria", 20));
-        fullName.setTextFill(Color.web("#ededed"));
+        //===================================TOP PANE STARTS===================================
 
-        user.getChildren().addAll(fullName);
-        leftPane.setTop(user);
+        Label title = new Label("Classroom Mail");
+        title.setPadding(new Insets(10,0,0,0));
+        title.setFont(new Font("Cambria", 20));
+        title.setTextFill(Color.web("#ededed"));
 
-        lists = new VBox(15);
+        topPane.setLeft(title);
+
+        //===================================TOP PANE ENDS===================================
+
+        //===================================LEFT PANE STARTS===================================
+
+
+
+        VBox lists = new VBox(15);
 
         ScrollPane scrollerList = new ScrollPane(lists);
         scrollerList.setStyle("-fx-background-color: transparent");
@@ -58,44 +58,29 @@ public class profile {
         scrollerList.setVvalue(1.0);
         scrollerList.vvalueProperty().bind(lists.heightProperty());
 
-        VBox allLists = new VBox(15);
-        allLists.getChildren().addAll(scrollerList);
+        leftPane.setCenter(scrollerList);
 
-        leftPane.setCenter(allLists);
+        //===================================LEFT PANE ENDS===================================
 
-        Label logout = GlyphsDude.createIconLabel( FontAwesomeIcon.SIGN_OUT,
-                "  Log Out",
-                "20",
-                "18",
-                ContentDisplay.LEFT );
-        logout.setFont(new Font("Cambria", 20));
-        logout.setTextFill(Color.web("#171717"));
-        logout.setPadding(new Insets(10));
-        StackPane logoutPane = new StackPane(logout);
-        logoutPane.setAlignment(Pos.BASELINE_LEFT);
-        logoutPane.setStyle("-fx-background-color: #f4f4ff");
-        logoutPane.setCursor(Cursor.HAND);
+        //===================================CENTER PANE STARTS===================================
 
-        logoutPane.setOnMouseClicked(e-> {
-            userSignOut.userSignOut();
-            main.window.setScene(loginHome.homeView());
-        });
+        //===================================CENTER PANE ENDS===================================
 
-        leftPane.setBottom(logoutPane);
+        //===================================RIGHT PANE STARTS===================================
 
-        profilePane.setLeft(leftPane);
-        profilePane.setCenter(optionData);
+        //===================================RIGHT PANE ENDS===================================
+
+        BorderPane profilePane = new BorderPane(centerPane,topPane,rightPane,null,leftPane);
+
+        String image = profile.class.getResource("../resources/images/splash.jpg").toExternalForm();
+        profilePane.setStyle("-fx-background-image: url('" + image + "'); " +
+                "-fx-background-position: center center; " +
+                "-fx-background-size: cover, auto; " +
+                "-fx-background-repeat: stretch;");
 
         scene = new Scene(profilePane,850,550);
         scene.getStylesheets().add(main.class.getResource("../../resources/css/main.css").toExternalForm());
 
-        String image = profile.class.getResource("../resources/images/splash.jpg").toExternalForm();
-        optionData.setStyle("-fx-background-image: url('" + image + "'); " +
-                "-fx-background-position: center center; " +
-                "-fx-background-repeat: stretch;");
-        options.setStyle("-fx-background-image: url('" + image + "'); " +
-                "-fx-background-position: center center; " +
-                "-fx-background-repeat: stretch;");
         return scene;
     }
 }

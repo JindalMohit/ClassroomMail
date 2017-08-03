@@ -72,7 +72,6 @@ public class loginHome {
         image = loginHome.class.getResource("../resources/images/splash.jpg").toExternalForm();
         view.setStyle("-fx-background-image: url('" + image + "'); " +
                 "-fx-background-position: center center; " +
-                "-fx-background-repeat: no-repeat; " +
                 "-fx-background-size: cover, auto; " +
                 "-fx-background-repeat: stretch;");
 

@@ -41,7 +41,7 @@ public class userLogin {
         emailId.setPromptText("Email address");
         emailId.setFont(Font.font(15));
         emailId.setPrefHeight(30);
-        emailId.setStyle("-fx-background-color: transparent; -fx-border-color: #fff; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #fff;");
+        emailId.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
         emailId.focusedProperty().addListener((observable,  oldValue,  newValue) -> {
             if(newValue && firstTime.get()){
                 loginPane.requestFocus(); // Delegate the focus to container
@@ -53,7 +53,7 @@ public class userLogin {
         password.setPromptText("password");
         password.setFont(Font.font(15));
         password.setPrefHeight(30);
-        password.setStyle("-fx-background-color: transparent; -fx-border-color: #fff; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #fff;");
+        password.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
 
         Label error = new Label();
         error.setTextFill(Color.web("red"));
@@ -62,7 +62,7 @@ public class userLogin {
         Button loginButton = new Button("Login");
         loginButton.setFont(new Font("Cambria", 18));
         loginButton.setStyle("-fx-focus-color: transparent;-fx-background-color: #6ac045;");
-        loginButton.setTextFill(Color.web("#fff"));
+        loginButton.setTextFill(Color.web("#ededed"));
         loginRow.getChildren().addAll(loginButton);
         loginRow.setAlignment(Pos.BASELINE_CENTER);
 

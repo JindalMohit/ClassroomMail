@@ -18,7 +18,7 @@ public class dbLoginCheck {
 
         String query = DBUtils.prepareSelectQuery(" * ", "classroommail.userdetail", "( emailId = ? AND password = ? )");
 
-        String updateCurrentUserQuery = DBUtils.prepareInsertQuery("classroomwunderlist.currentuser", "id, fullName, emailId", "?,?,?");
+        String updateCurrentUserQuery = DBUtils.prepareInsertQuery("classroommail.currentuser", "id, fullName, emailId", "?,?,?");
 
         String[] status = {"ongoing",""};
 
