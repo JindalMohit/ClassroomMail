@@ -7,23 +7,21 @@ import java.sql.PreparedStatement;
 
 public class sendNewMessage {
 
-    public static String add(String timeStamp, String companyName,String listName,String bugName,String emailId,String comment){
+    public static String add(String timeStamp, String sender, String receiver, String message){
 
         Connection con = null;
         PreparedStatement stmt = null;
 
-        String query = DBUtils.prepareInsertQuery("classroomwunderlist.bugcomment", "timestamp, companyName, listName, bugName, emailId, comment", "?,?,?,?,?,?");
+        String query = DBUtils.prepareInsertQuery("classroommail.chat", " timestamp, sender, receiver, message", "?,?,?,?");
 
         String status = "Ongoing";
         try{
             con = DBUtils.getConnection();
             stmt = con.prepareStatement(query);
             stmt.setString(1, timeStamp);
-            stmt.setString(2, companyName);
-            stmt.setString(3, listName);
-            stmt.setString(4, bugName);
-            stmt.setString(5, emailId);
-            stmt.setString(6, comment);
+            stmt.setString(2, sender);
+            stmt.setString(3, receiver);
+            stmt.setString(4, message);
             stmt.executeUpdate();
             status ="success";
         }

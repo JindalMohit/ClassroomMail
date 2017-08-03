@@ -1,7 +1,10 @@
 package com.ClassroomMail.main.templates;
 
 import com.ClassroomMail.database.chat.fetchChat;
+import com.ClassroomMail.database.chat.sendNewMessage;
 import com.ClassroomMail.main.windows.home.main;
+import com.ClassroomMail.main.templates.messageFormat;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -10,6 +13,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
 
 
 public class chatRightPanel {
@@ -72,18 +79,18 @@ public class chatRightPanel {
         Label error = new Label("");
         error.setTextFill(Color.web("red"));
 
-//        send.setOnAction(e-> {
-//            String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-//            String status = addNewMessage.add(timeStamp,companyName, threadMailId, currentUserMailId, newMessage.getText());
-//
-//            if (status=="success"){
-//                BorderPane newmessage = message.rightformatmessage(timeStamp, newMessage.getText());
-//                fetchedMessages.getChildren().add(newmessage);
-//                newMessage.setText("");
-//            }
-//            else
-//                error.setText(status);
-//        });
+        send.setOnAction(e-> {
+            String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+            String status = sendNewMessage.add(timeStamp,currentUserMailId,userMailId, newMessage.getText());
+
+            if (Objects.equals(status, "success")){
+                BorderPane newmessage = messageFormat.formatmessage(timeStamp, newMessage.getText(),"right");
+                fetchedMessages.getChildren().add(newmessage);
+                newMessage.setText("");
+            }
+            else
+                error.setText(status);
+        });
 
         mymessageCorner.setLeft(newMessage);
         mymessageCorner.setRight(send);
