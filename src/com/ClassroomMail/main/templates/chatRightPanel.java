@@ -11,8 +11,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class chatRightPanel {
 
@@ -26,6 +24,7 @@ public class chatRightPanel {
 
         threadProfile = new BorderPane();
         threadProfile.setStyle("-fx-background-color: transparent; -fx-border-color: grey; -fx-border-width: 0 0 0 1; -fx-text-color: #eee;");
+        threadProfile.setPadding(new Insets(10));
 
         Label header = new Label(userName);
         header.setAlignment(Pos.TOP_LEFT);
@@ -33,14 +32,14 @@ public class chatRightPanel {
         header.setTextFill(Color.web("#ededed"));
 
         BorderPane headerTitle = new BorderPane(null,null,null,null,header);
-        headerTitle.setPadding(new Insets(0,0,30,0));
+        headerTitle.setPadding(new Insets(0,0,20,0));
 
         threadProfile.setTop(headerTitle);
 
         messages = new BorderPane();
         messages.setStyle("-fx-background-color: transparent");
-        messages.setPrefHeight(main.window.getHeight()-350);
-        main.window.heightProperty().addListener(e-> messages.setPrefHeight(main.window.getHeight()-350));
+        messages.setPrefHeight(main.window.getHeight()-230);
+        main.window.heightProperty().addListener(e-> messages.setPrefHeight(main.window.getHeight()-230));
 
         fetchedMessages.getChildren().add(fetchChat.fetchChat(userMailId, currentUserMailId));
 
@@ -54,15 +53,14 @@ public class chatRightPanel {
         threadProfile.setCenter(scroller);
 
         BorderPane mymessageCorner = new BorderPane();
-        mymessageCorner.setPadding(new Insets(15,0,0,0));
+        mymessageCorner.setPadding(new Insets(15,10,0,10));
 
         TextArea newMessage = new TextArea();
         newMessage.setPromptText("Enter your message here");
         newMessage.setStyle("-fx-focus-color: transparent; -fx-border-color: #fff;-fx-border-width: 1 1 1 0;-fx-padding: 0 0 0 -2;");
         newMessage.setPrefHeight(50);
         newMessage.setWrapText(true);
-        newMessage.setPrefWidth(main.window.getWidth()-430);
-        main.window.widthProperty().addListener(e-> newMessage.setPrefWidth(main.window.getWidth()-430));
+        newMessage.setPrefWidth(300);
 
         Button send = new Button("Send");
         send.setPrefHeight(50);

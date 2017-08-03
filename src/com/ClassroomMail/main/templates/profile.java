@@ -33,7 +33,7 @@ public class profile {
 
         topPane.setMaxHeight(100);
         leftPane.setPrefWidth(220);
-        rightPane.setMaxWidth(400);
+        rightPane.setMaxWidth(350);
 
         topPane.setPadding(new Insets(10,30,10,30));
         leftPane.setPadding(new Insets(10,30,10,30));

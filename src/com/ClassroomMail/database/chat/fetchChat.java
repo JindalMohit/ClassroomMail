@@ -17,7 +17,7 @@ public class fetchChat {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        VBox commentList = new VBox();
+        VBox commentList = new VBox(10);
 
         String query = DBUtils.prepareSelectQuery(" * ",
                 "classroommail.chat", "( ( sender = '"+userMailId+"' AND receiver = '"+currentUserMailId+"' ) OR ( sender = '"+currentUserMailId+"' AND receiver = '"+userMailId+"' ) )",

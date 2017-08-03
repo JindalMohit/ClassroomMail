@@ -2,6 +2,7 @@ package com.ClassroomMail.database.chat;
 
 import com.ClassroomMail.database.utils.DBUtils;
 import com.ClassroomMail.main.templates.chatRightPanel;
+import com.ClassroomMail.database.userDetail.getUserName;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -48,9 +49,10 @@ public class fetchChatContact {
             rs.beforeFirst();
 
             if (size>0){
-                int count = 1;
-                while (rs.next())
-                    addcontact("userName",rs.getString("mailId"),mailId);
+                while (rs.next()){
+                    String userMailId = rs.getString("mailId");
+                    addcontact(getUserName.getUserName(userMailId),userMailId,mailId);
+                }
             }
             else{
                 Label noContact = new Label("No Contacts found in Database");
