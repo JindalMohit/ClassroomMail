@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: localhost    Database: classroomwunderlist
+-- Host: localhost    Database: classroommail
 -- ------------------------------------------------------
 -- Server version	5.7.12-log
 
@@ -16,87 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `bugcomment`
+-- Table structure for table `chat`
 --
 
-DROP TABLE IF EXISTS `bugcomment`;
+DROP TABLE IF EXISTS `chat`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bugcomment` (
+CREATE TABLE `chat` (
   `timestamp` varchar(50) NOT NULL,
-  `companyName` varchar(100) NOT NULL,
-  `listName` varchar(100) NOT NULL,
-  `bugName` varchar(500) NOT NULL,
-  `emailId` varchar(50) NOT NULL,
-  `comment` varchar(200) NOT NULL,
-  PRIMARY KEY (`timestamp`,`companyName`,`listName`,`emailId`)
+  `sender` varchar(100) NOT NULL,
+  `receiver` varchar(100) NOT NULL,
+  `message` varchar(200) NOT NULL,
+  PRIMARY KEY (`timestamp`,`sender`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `bugcomment`
+-- Dumping data for table `chat`
 --
 
-LOCK TABLES `bugcomment` WRITE;
-/*!40000 ALTER TABLE `bugcomment` DISABLE KEYS */;
-INSERT INTO `bugcomment` VALUES ('2017.07.27.19.55.28','microsoft','Website Bugs','lazy loading issue','hkbansal@gmail.com','@shubham Please check the slider.js file '),('2017.07.27.20.55.28','microsoft','Website Bugs','lazy loading issue','vkthakur@gmail.com','@shubham I made some changes yesterday. Pull latest code'),('2017.07.29.10.55.28','microsoft','Website Bugs','lazy loading issue','submiitr07@gmail.com','@harsh @vikrant corrected it. Working fine.'),('2017.07.29.12.29.12','microsoft','Website Bugs','lazy loading issue','submiitr07@gmail.com','Testing newly added add comment section'),('2017.07.29.12.29.43','microsoft','Website Bugs','lazy loading issue','submiitr07@gmail.com','Its fun. Trying again. Afterall I made it'),('2017.07.29.12.36.33','microsoft','Product v2.0 bugs','slides regions and more flavours dropdown indicator','submiitr07@gmail.com','@harsh May you please see this'),('2017.07.29.21.43.53','microsoft','Testing Issues','Too much white spaces in Regions dropdown','submiitr07@gmail.com','Sample Tsting here also\n:)'),('2017.07.29.22.57.46','microsoft','Product v2.0 bugs','slides regions and more flavours dropdown indicator','submiitr07@gmail.com','Enjoy guys ::)'),('2017.07.30.01.46.25','microsoft','Bugs and Issues','first to do in bugs and Issues','submiitr07@gmail.com','checking comment in newly added bug'),('2017.07.30.01.49.51','microsoft','List created bY .........','It works de.','hkbansal@gmail.com','Even comment too'),('2017.07.30.02.30.34','mozilla','initial list here','initial bug ','submiitr07@gmail.com','Testing comment section	');
-/*!40000 ALTER TABLE `bugcomment` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bugsinlist`
---
-
-DROP TABLE IF EXISTS `bugsinlist`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bugsinlist` (
-  `timestamp` varchar(50) NOT NULL,
-  `companyName` varchar(100) NOT NULL,
-  `listName` varchar(100) NOT NULL,
-  `bugName` varchar(500) NOT NULL,
-  `assigneeEmailId` varchar(100) DEFAULT NULL,
-  `deadline` varchar(100) DEFAULT NULL,
-  `priority` varchar(100) DEFAULT NULL,
-  `checked` varchar(10) NOT NULL,
-  PRIMARY KEY (`timestamp`,`companyName`,`listName`,`bugName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bugsinlist`
---
-
-LOCK TABLES `bugsinlist` WRITE;
-/*!40000 ALTER TABLE `bugsinlist` DISABLE KEYS */;
-INSERT INTO `bugsinlist` VALUES ('2017.07.26.19.55.28','microsoft','Technicals','cannot load moduler js','','2017.07.31.19.55.28','P5','false'),('2017.07.26.19.55.28','microsoft','Website Bugs','lazy loading issue','submiitr07@gmail.com','2017.07.31.19.55.28','P2','true'),('2017.07.26.19.55.28','microsoft','Website Bugs','lazy loading issue Part 2','submiitr07@gmail.com','2017.07.31.19.55.28','P5','false'),('2017.07.27.19.55.28','microsoft','Product v2.0 bugs','Amount payable for bebinca is not showing','hkbansal@gmail.com','2017.07.31.19.55.28','P4','true'),('2017.07.27.19.55.28','microsoft','Product v2.0 bugs','slides regions and more flavours dropdown indicator','submiitr07@gmail.com','2017.07.31.19.55.28','P5','false'),('2017.07.28.19.55.28','microsoft','Website Bugs','Too much white spaces in Regions dropdown','submiitr07@gmail.com','2017.07.31.19.55.28','P5','true'),('2017.07.28.19.55.28','microsoft','Website Bugs','Too much white spaces in Regions dropdown Part 2','submiitr07@gmail.com','2017.07.31.19.55.28','P3','true'),('2017.07.29.19.55.28','microsoft','Android getUserDetail API ','Amount payable for bebinca is not showing','hkbansal@gmail.com','2017.07.31.19.55.28','P5','false'),('2017.07.29.19.55.28','microsoft','Android getUserDetail API ','slides regions and more flavours dropdown indicator','submiitr07@gmail.com','2017.07.31.19.55.28','P5','true'),('2017.07.30.01.06.21','microsoft','Product v2.0 bugs','Testing new bug',NULL,NULL,NULL,'true'),('2017.07.30.01.07.48','microsoft','Android getUserDetail API ','API server error. Status code: 500',NULL,NULL,NULL,'false'),('2017.07.30.01.45.46','microsoft','Bugs and Issues','first to do in bugs and Issues',NULL,NULL,NULL,'false'),('2017.07.30.01.49.39','microsoft','List created bY .........','It works de.',NULL,NULL,NULL,'false'),('2017.07.30.02.30.14','mozilla','initial list here','initial bug ',NULL,NULL,NULL,'false'),('2017.07.30.19.55.28','microsoft','Testing Issues','slides regions and more flavours dropdown indicator','submiitr07@gmail.com','2017.07.31.19.55.28','P4','false'),('2017.07.30.19.55.28','microsoft','Testing Issues','Too much white spaces in Regions dropdown','submiitr07@gmail.com','2017.07.31.19.55.28','P5','true'),('2017.07.31.19.55.28','microsoft','Testing Issues','slides regions and more flavours dropdown indicator again','submiitr07@gmail.com','2017.07.31.19.55.28','P1','true'),('2017.07.31.19.55.28','microsoft','Testing Issues','Too much white spaces in Regions dropdown Part 2','submiitr07@gmail.com','2017.07.31.19.55.28','P2','false');
-/*!40000 ALTER TABLE `bugsinlist` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `company`
---
-
-DROP TABLE IF EXISTS `company`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `company` (
-  `companyName` varchar(500) NOT NULL,
-  `fullName` varchar(100) NOT NULL,
-  `employeeEmailId` varchar(500) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  PRIMARY KEY (`companyName`,`employeeEmailId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `company`
---
-
-LOCK TABLES `company` WRITE;
-/*!40000 ALTER TABLE `company` DISABLE KEYS */;
-INSERT INTO `company` VALUES ('facebook','Harsh Bansal','hkbansal@gmail.com','iitr'),('facebook','Vikrant Thakur','vkthakur@gmail.com','iitr'),('microsoft','Harsh Bansal','hkbansal@gmail.com','iitr'),('microsoft','madHEYsia','ranark@gmail.com','iitr'),('microsoft','Shubham Madheysia','submiitr07@gmail.com','iitr'),('microsoft','Vikrant Thakur','vkthakur@gmail.com','iitr'),('mozilla','Shubham Madheysia','submiitr07@gmail.com','iitr'),('ONGC','Ravi Sharma','ravi','iitr');
-/*!40000 ALTER TABLE `company` ENABLE KEYS */;
+LOCK TABLES `chat` WRITE;
+/*!40000 ALTER TABLE `chat` DISABLE KEYS */;
+INSERT INTO `chat` VALUES ('2017.07.27.19.55.28','submiitr07@gmail.com','hkbansal@gmail.com','Please check the slider.js file '),('2017.07.27.20.55.28','submiitr07@gmail.com','vkthakur@gmail.com','I made some changes yesterday. Pull latest code'),('2017.07.29.10.55.28','hkbansal@gmail.com','vkthakur@gmail.com',' @vikrant corrected it. Working fine.'),('2017.07.29.12.29.12','vkthakur@gmail.com','submiitr07@gmail.com','ok'),('2017.07.29.12.29.43','hkbansal@gmail.com','submiitr07@gmail.com','Its fun. Trying again. Afterall I made it'),('2017.07.29.12.36.33','submiitr07@gmail.com','ravi@gmail.com','fix that bug please'),('2017.07.29.21.43.53','hkbansal@gmail.com','ravi@gmail.com','Sample Tsting here also\n:)'),('2017.07.30.01.49.51','submiitr07@gmail.com','ravi@gmail.com','Even comment too'),('2017.08.04.01.56.19','submiitr07@gmail.com','hkbansal@gmail.com','Hi, testing on UI comment'),('2017.08.04.01.57.11','submiitr07@gmail.com','hkbansal@gmail.com','Testing Again and Again. Don\'t Mind'),('2017.08.04.01.57.13','submiitr07@gmail.com','hkbansal@gmail.com','Testing Again and Again. Don\'t Mind'),('2017.08.04.01.57.14','submiitr07@gmail.com','hkbansal@gmail.com','Testing Again and Again. Don\'t Mind'),('2017.08.04.01.57.16','submiitr07@gmail.com','hkbansal@gmail.com','Testing Again and Again. Don\'t Mind'),('2017.08.04.01.57.17','submiitr07@gmail.com','hkbansal@gmail.com','Testing Again and Again. Don\'t Mind'),('2017.08.04.01.57.20','submiitr07@gmail.com','hkbansal@gmail.com','Testing Again and Again. Don\'t Mind'),('2017.08.04.02.00.55','hkbansal@gmail.com','ravi@gmail.com','*Testing\nSorry sir'),('2017.08.04.02.26.51','hkbansal@gmail.com','submiitr07@gmail.com','Keep Testing. Be consistent'),('2017.08.04.02.27.16','hkbansal@gmail.com','vkthakur@gmail.com','Thanks. Will look at it and merge in master'),('2017.08.04.02.54.47','hkbansal@gmail.com','harpreet@gmail.com','Hello there !!');
+/*!40000 ALTER TABLE `chat` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -108,10 +50,9 @@ DROP TABLE IF EXISTS `currentuser`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `currentuser` (
   `id` varchar(100) NOT NULL,
-  `companyName` varchar(100) NOT NULL,
   `fullName` varchar(400) NOT NULL,
-  `employeeEmailId` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  `emailId` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`,`emailId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -121,32 +62,89 @@ CREATE TABLE `currentuser` (
 
 LOCK TABLES `currentuser` WRITE;
 /*!40000 ALTER TABLE `currentuser` DISABLE KEYS */;
+INSERT INTO `currentuser` VALUES ('.8Q8MF32.CN762064CH1JMT.','Shubham Madheysia','submiitr07@gmail.com');
 /*!40000 ALTER TABLE `currentuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `lists`
+-- Table structure for table `mails`
 --
 
-DROP TABLE IF EXISTS `lists`;
+DROP TABLE IF EXISTS `mails`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `lists` (
-  `timestamp` varchar(50) NOT NULL,
-  `companyName` varchar(100) NOT NULL,
-  `listName` varchar(100) NOT NULL,
-  PRIMARY KEY (`timestamp`,`companyName`,`listName`)
+CREATE TABLE `mails` (
+  `id` varchar(100) NOT NULL,
+  `messageTimestamp` varchar(100) NOT NULL,
+  `subjectTimestamp` varchar(100) NOT NULL,
+  `subjectName` varchar(150) NOT NULL,
+  `senderMail` varchar(100) NOT NULL,
+  `receiverMail` varchar(100) NOT NULL,
+  `message` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`,`messageTimestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `lists`
+-- Dumping data for table `mails`
 --
 
-LOCK TABLES `lists` WRITE;
-/*!40000 ALTER TABLE `lists` DISABLE KEYS */;
-INSERT INTO `lists` VALUES ('2017.07.26.18.00.28','microsoft','Website Bugs'),('2017.07.27.18.00.28','microsoft','Technicals'),('2017.07.27.20.00.28','microsoft','Product v2.0 bugs'),('2017.07.28.19.02.22','microsoft','Android getUserDetail API '),('2017.07.28.19.06.17','microsoft','Testing Issues'),('2017.07.28.20.25.19','mozilla','initial list here'),('2017.07.29.00.59.09','microsoft','Bugs and Issues'),('2017.07.30.01.49.14','microsoft','List created bY .........');
-/*!40000 ALTER TABLE `lists` ENABLE KEYS */;
+LOCK TABLES `mails` WRITE;
+/*!40000 ALTER TABLE `mails` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mails` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `subjectdetails`
+--
+
+DROP TABLE IF EXISTS `subjectdetails`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `subjectdetails` (
+  `id` varchar(100) NOT NULL,
+  `mailId` varchar(100) NOT NULL,
+  `subjectTimestamp` varchar(100) NOT NULL,
+  `subjectName` varchar(150) NOT NULL,
+  `important` varchar(10) NOT NULL DEFAULT 'false',
+  `deleted` varchar(10) NOT NULL DEFAULT 'false',
+  `draftMessage` varchar(2000) DEFAULT NULL,
+  PRIMARY KEY (`id`,`mailId`,`subjectTimestamp`,`subjectName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `subjectdetails`
+--
+
+LOCK TABLES `subjectdetails` WRITE;
+/*!40000 ALTER TABLE `subjectdetails` DISABLE KEYS */;
+/*!40000 ALTER TABLE `subjectdetails` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `userdetail`
+--
+
+DROP TABLE IF EXISTS `userdetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `userdetail` (
+  `fullName` varchar(100) NOT NULL,
+  `emailId` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  PRIMARY KEY (`emailId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `userdetail`
+--
+
+LOCK TABLES `userdetail` WRITE;
+/*!40000 ALTER TABLE `userdetail` DISABLE KEYS */;
+INSERT INTO `userdetail` VALUES ('Harpreet Singh','harpreet@gmail.com','iitr'),('Harsh Bansal','hkbansal@gmail.com','iitr'),('Mukul Gupta','mukul@gmail.com','iitr'),('Navin Gupta','navin@gmail.com','iitr'),('Nitesh Prajapati','nitesh@gmail.com','iitr'),('Ravi Sharma','ravi@gmail.com','iitr'),('Shubham Madheysia','submiitr07@gmail.com','iitr'),('Vikrant Thakur','vkthakur@gmail.com','iitr');
+/*!40000 ALTER TABLE `userdetail` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -158,4 +156,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-30  3:23:53
+-- Dump completed on 2017-08-04  3:18:05

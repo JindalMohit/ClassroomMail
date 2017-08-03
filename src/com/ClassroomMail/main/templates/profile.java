@@ -3,13 +3,18 @@ package com.ClassroomMail.main.templates;
 import com.ClassroomMail.main.windows.home.main;
 import com.ClassroomMail.database.chat.fetchChatContact;
 
+import de.jensd.fx.glyphs.GlyphsDude;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -67,13 +72,49 @@ public class profile {
         String[] option = {"Inbox","Important","Sent Mail","Drafts","Trash"};
         for (String anOption : option) optionLabel(anOption);
 
-        VBox chatlists = fetchChatContact.fetchContacts(emailId);
+        Label userName = GlyphsDude.createIconLabel( FontAwesomeIcon.USER,
+                completeName,
+                "25",
+                "15",
+                ContentDisplay.LEFT );
+        userName.setPadding(new Insets(5));
+        userName.setFont(new Font("Open Sans", 15));
+        userName.setTextFill(Color.web("#171717"));
+        StackPane userNamePane = new StackPane(userName);
+        userNamePane.setAlignment(Pos.BASELINE_LEFT);
+        userNamePane.setStyle("-fx-background-color: #f4f4ff");
 
-        ScrollPane scrollerList = new ScrollPane(chatlists);
+        Label addContact = GlyphsDude.createIconLabel( FontAwesomeIcon.PLUS_SQUARE,
+                "",
+                "25",
+                "15",
+                ContentDisplay.LEFT );
+        addContact.setPadding(new Insets(5));
+        StackPane addContactPane = new StackPane(addContact);
+        addContactPane.setAlignment(Pos.BASELINE_RIGHT);
+        addContactPane.setStyle("-fx-background-color: #f4f4ff");
+        addContactPane.setCursor(Cursor.HAND);
+
+        BorderPane addUser = new BorderPane(userNamePane,null,addContactPane,null,null);
+        addUser.setPadding(new Insets(0));
+        addUser.setStyle("-fx-background-color: red");
+        options.getChildren().add(addUser);
+
+        final VBox[] chatlists = {fetchChatContact.fetchContacts(emailId)};
+        addContactPane.setOnMouseClicked(e-> {
+            addToContact ob = new addToContact();
+            String userMailId = ob.addToContact(emailId);
+            if (!userMailId.equals("")){
+                chatlists[0].getChildren().clear();
+                chatlists[0] = fetchChatContact.fetchContacts(emailId);
+            }
+        });
+
+        ScrollPane scrollerList = new ScrollPane(chatlists[0]);
         scrollerList.setStyle("-fx-background-color: transparent");
         scrollerList.setFitToWidth(true);
         scrollerList.setVvalue(1.0);
-        scrollerList.vvalueProperty().bind(chatlists.heightProperty());
+        scrollerList.vvalueProperty().bind(chatlists[0].heightProperty());
         scrollerList.setPadding(new Insets(20,0,0,0));
 
         leftPane.setCenter(scrollerList);
@@ -105,6 +146,10 @@ public class profile {
         label.setTextFill(Color.web("#eee"));
         label.setStyle("-fx-background-color: transparent");
         label.setCursor(Cursor.HAND);
+
+        if (title.equals("Trash"))
+            label.setPadding(new Insets(0,0,30,0));
+
         options.getChildren().add(label);
 
         label.setOnMouseClicked(e-> {
