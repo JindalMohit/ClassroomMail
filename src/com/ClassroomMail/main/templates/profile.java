@@ -1,6 +1,7 @@
 package com.ClassroomMail.main.templates;
 
 import com.ClassroomMail.main.windows.home.main;
+import com.ClassroomMail.database.chat.fetchChatContact;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,20 +17,28 @@ import javafx.scene.text.Font;
 public class profile {
 
     public static Scene scene;
-    public static VBox options;
+    private static VBox options;
+
+    public static BorderPane topPane ;
+    public static BorderPane leftPane ;
+    public static BorderPane centerPane ;
+    public static BorderPane rightPane ;
 
     public static Scene main(String completeName, String emailId){
 
-        BorderPane topPane = new BorderPane();
-        BorderPane leftPane = new BorderPane();
-        BorderPane centerPane = new BorderPane();
-        BorderPane rightPane = new BorderPane();
+        topPane = new BorderPane();
+        leftPane = new BorderPane();
+        centerPane = new BorderPane();
+        rightPane = new BorderPane();
 
         topPane.setMaxHeight(100);
         leftPane.setPrefWidth(220);
         rightPane.setMaxWidth(400);
 
-        topPane.setPadding(new Insets(0,0,10,0));
+        topPane.setPadding(new Insets(10,30,10,30));
+        leftPane.setPadding(new Insets(10,30,10,30));
+
+        topPane.setStyle("-fx-background-color: transparent; -fx-border-color: grey; -fx-border-width: 0 0 1 0; -fx-text-color: #eee;");
 
         //===================================TOP PANE STARTS===================================
 
@@ -46,27 +55,27 @@ public class profile {
         options = new VBox(10);
 
         Label compose = new Label("COMPOSE");
-        compose.setPadding(new Insets(5,10,5,10));
+        compose.setPadding(new Insets(3,10,3,10));
         compose.setFont(new Font("Open Sans", 15));
-        compose.setTextFill(Color.web("#444"));
+        compose.setStyle("-fx-background-color: #f4f4ff; -fx-text-color: #444;");
         compose.setAlignment(Pos.CENTER);
-        compose.setStyle("-fx-background-color: #f4f4ff");
         compose.setCursor(Cursor.HAND);
+
         options.getChildren().add(compose);
+        leftPane.setTop(options);
 
         String[] option = {"Inbox","Important","Sent Mail","Drafts","Trash"};
         for (String anOption : option) optionLabel(anOption);
 
-
-        VBox chatlists = new VBox(15);
+        VBox chatlists = fetchChatContact.fetchContacts(emailId);
 
         ScrollPane scrollerList = new ScrollPane(chatlists);
         scrollerList.setStyle("-fx-background-color: transparent");
         scrollerList.setFitToWidth(true);
         scrollerList.setVvalue(1.0);
         scrollerList.vvalueProperty().bind(chatlists.heightProperty());
+        scrollerList.setPadding(new Insets(20,0,0,0));
 
-        leftPane.setTop(options);
         leftPane.setCenter(scrollerList);
 
         //===================================LEFT PANE ENDS===================================
@@ -75,12 +84,7 @@ public class profile {
 
         //===================================CENTER PANE ENDS===================================
 
-        //===================================RIGHT PANE STARTS===================================
-
-        //===================================RIGHT PANE ENDS===================================
-
         BorderPane profilePane = new BorderPane(centerPane,topPane,rightPane,null,leftPane);
-        profilePane.setPadding(new Insets(10,50,0,50));
 
         String image = profile.class.getResource("../resources/images/splash.jpg").toExternalForm();
         profilePane.setStyle("-fx-background-image: url('" + image + "'); " +
