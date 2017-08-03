@@ -39,7 +39,7 @@ public class userLogin {
 
         TextField emailId = new TextField();
         emailId.setPromptText("Email address");
-        emailId.setFont(Font.font(15));
+        emailId.setFont(new Font("Open Sans", 15));
         emailId.setPrefHeight(30);
         emailId.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
         emailId.focusedProperty().addListener((observable,  oldValue,  newValue) -> {
@@ -51,7 +51,7 @@ public class userLogin {
 
         PasswordField password = new PasswordField();
         password.setPromptText("password");
-        password.setFont(Font.font(15));
+        password.setFont(new Font("Open Sans", 15));
         password.setPrefHeight(30);
         password.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
 
@@ -60,7 +60,7 @@ public class userLogin {
 
         HBox loginRow = new HBox();
         Button loginButton = new Button("Login");
-        loginButton.setFont(new Font("Cambria", 18));
+        loginButton.setFont(new Font("Open Sans", 18));
         loginButton.setStyle("-fx-focus-color: transparent;-fx-background-color: #6ac045;");
         loginButton.setTextFill(Color.web("#ededed"));
         loginRow.getChildren().addAll(loginButton);

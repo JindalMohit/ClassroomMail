@@ -38,7 +38,7 @@ public class userSignUp {
         vb.setPadding(new Insets(20,20,20,20));
 
         TextField fullName = new TextField();
-        fullName.setFont(Font.font(15));
+        fullName.setFont(new Font("Open Sans", 15));
         fullName.setPromptText("Full Name");
         fullName.setPrefHeight(30);
         fullName.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
@@ -50,19 +50,19 @@ public class userSignUp {
         });
 
         TextField email = new TextField();
-        email.setFont(Font.font(15));
+        email.setFont(new Font("Open Sans", 15));
         email.setPromptText("Email Id");
         email.setPrefHeight(30);
         email.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed; -fx-text-fill: red;");
 
         PasswordField password = new PasswordField();
-        password.setFont(Font.font(15));
+        password.setFont(new Font("Open Sans", 15));
         password.setPromptText("password");
         password.setPrefHeight(30);
         password.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
 
         PasswordField confirmPassword = new PasswordField();
-        confirmPassword.setFont(Font.font(15));
+        confirmPassword.setFont(new Font("Open Sans", 15));
         confirmPassword.setPromptText("Confirm password");
         confirmPassword.setPrefHeight(30);
         confirmPassword.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
@@ -72,7 +72,7 @@ public class userSignUp {
 
         HBox signUpRow = new HBox();
         Button signUpButton = new Button("SignUp");
-        signUpButton.setFont(new Font("Cambria", 18));
+        signUpButton.setFont(new Font("Open Sans", 18));
         signUpButton.setStyle("-fx-focus-color: transparent;-fx-background-color: #6ac045;");
         signUpButton.setTextFill(Color.web("#ededed"));
         signUpRow.getChildren().addAll(signUpButton);

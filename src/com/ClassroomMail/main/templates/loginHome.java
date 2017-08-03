@@ -20,7 +20,7 @@ public class loginHome {
         BorderPane view = new BorderPane();
 
         Label title = new Label("Classroom Mail");
-        title.setFont(new Font("Cambria", 60));
+        title.setFont(new Font("Open Sans", 60));
         title.setTextFill(Color.web("#ededed"));
 
         HBox header = new HBox(25);
@@ -29,14 +29,14 @@ public class loginHome {
 
         Label login = new Label("Login");
         login.setPadding(new Insets(5));
-        login.setFont(new Font("Cambria", 20));
+        login.setFont(new Font("Open Sans", 20));
         login.setTextFill(Color.web("#ededed"));
         login.setCursor(Cursor.HAND);
         login.setStyle(" -fx-border-color: red; -fx-border-width: 0 0 3 0; -fx-border-insets: 0 0 1 0; ");
 
         Label register = new Label("Register");
         register.setPadding(new Insets(5));
-        register.setFont(new Font("Cambria", 20));
+        register.setFont(new Font("Open Sans", 20));
         register.setTextFill(Color.web("#ededed"));
         register.setCursor(Cursor.HAND);
 
