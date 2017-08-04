@@ -3,6 +3,7 @@ package com.ClassroomMail.main.templates;
 import com.ClassroomMail.database.mails.sendMail;
 import com.ClassroomMail.main.windows.home.main;
 import com.ClassroomMail.database.mails.saveAsDraft;
+import com.ClassroomMail.main.functions.getMotherboardSN;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -31,8 +32,6 @@ public class composeRightPanel {
     public static final Pattern VALID_STRING_REGEX = Pattern.compile("^\\s*$", Pattern.CASE_INSENSITIVE);
 
     public static BorderPane composeRightPanel(String userMailId){
-
-        String composetimeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 
         threadProfile = new BorderPane();
         threadProfile.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;");
@@ -133,8 +132,10 @@ public class composeRightPanel {
             else if (!mailvalidate(reciepentList))
                 error.setText("Receipents Email ID incorrect");
             else{
+                String messageTimestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                String composeId =  messageTimestamp + getMotherboardSN.getMotherboardSN();
 
-                String status = sendMail.sendMail(composetimeStamp,composetimeStamp,mailSubject,userMailId,reciepentList,body.getText(), markImportant.isSelected());
+                String status = sendMail.sendMail(messageTimestamp,composeId,mailSubject,userMailId,reciepentList,body.getText(), markImportant.isSelected());
                 if (status.equals("success")){
                     threadProfile.getChildren().clear();
                     threadProfile.setPadding(new Insets(0));
@@ -170,7 +171,10 @@ public class composeRightPanel {
             String mailSubject = subject.getText();
             mailSubject = whitespacevalidate(subject.getText()) ? "(no subject)" : mailSubject;
 
-            String status = saveAsDraft.saveAsDraft(composetimeStamp,userMailId,mailSubject,markImportant.isSelected()+"","false","true","true",body.getText(), reciepentList );
+            String composeId = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) +
+                    getMotherboardSN.getMotherboardSN();
+
+            String status = saveAsDraft.saveAsDraft(composeId,userMailId,mailSubject,markImportant.isSelected()+"","false","true","true",body.getText(), reciepentList );
             if (status.equals("success")){
                 threadProfile.getChildren().clear();
                 threadProfile.setPadding(new Insets(0));

@@ -2,7 +2,6 @@ package com.ClassroomMail.main.templates;
 
 import com.ClassroomMail.main.windows.home.main;
 import com.ClassroomMail.database.chat.fetchChatContact;
-import com.ClassroomMail.main.templates.composeRightPanel;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -114,7 +113,7 @@ public class profile {
         leftPane.setTop(options);
 
         String[] option = {"Inbox","Important","Sent Mail","Drafts","Trash"};
-        for (String anOption : option) optionLabel(anOption);
+        for (String anOption : option) optionLabel(anOption, emailId);
 
         Label userName = GlyphsDude.createIconLabel( FontAwesomeIcon.USER,
                 completeName,
@@ -165,9 +164,7 @@ public class profile {
 
         //===================================LEFT PANE ENDS=====================================
 
-        //===================================CENTER PANE STARTS=================================
-
-        //===================================CENTER PANE ENDS===================================
+//        centerPane = centerPanel.centerPanel("Inbox", emailId);
 
         BorderPane profilePane = new BorderPane(centerPane,topPane,rightPane,null,leftPane);
 
@@ -183,7 +180,7 @@ public class profile {
         return scene;
     }
 
-    private static Label optionLabel(String title){
+    private static Label optionLabel(String title, String emailId){
 
         Label label = new Label(title);
         label.setFont(new Font("Open Sans", 15));
@@ -196,25 +193,7 @@ public class profile {
 
         options.getChildren().add(label);
 
-        label.setOnMouseClicked(e-> {
-            switch (title) {
-                case "Inbox":
-                    System.out.println(title);
-                    break;
-                case "Important":
-                    System.out.println(title);
-                    break;
-                case "Sent Mail":
-                    System.out.println(title);
-                    break;
-                case "Drafts":
-                    System.out.println(title);
-                    break;
-                case "Trash":
-                    System.out.println(title);
-                    break;
-            }
-        });
+        label.setOnMouseClicked(e-> centerPane = centerPanel.centerPanel(title, emailId));
 
         return label;
 

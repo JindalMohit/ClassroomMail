@@ -7,11 +7,11 @@ import java.sql.PreparedStatement;
 
 public class saveAsDraft {
 
-    public static String saveAsDraft(String subjectTimestamp, String mailId, String subjectName, String important, String deleted, String latestMessageRead, String isDraft, String draftMessage, String draftReceipents){
+    public static String saveAsDraft(String subjectId, String mailId, String subjectName, String important, String deleted, String latestMessageRead, String isDraft, String draftMessage, String draftReceipents){
         Connection con = null;
         PreparedStatement stmt = null;
 
-        String addtoDrafts = DBUtils.prepareInsertQuery("classroommail.subjectdetails", "subjectTimestamp, mailId, subjectName, important, deleted, latestMessageRead, isDraft, draftMessage, draftReceipents","?,?,?,?,?,?,?,?,?");
+        String addtoDrafts = DBUtils.prepareInsertQuery("classroommail.subjectdetails", "subjectId, mailId, subjectName, important, deleted, latestMessageRead, isDraft, draftMessage, draftReceipents","?,?,?,?,?,?,?,?,?");
 
         String status = "ongoing";
 
@@ -19,7 +19,7 @@ public class saveAsDraft {
             con = DBUtils.getConnection();
 
             stmt = con.prepareStatement(addtoDrafts);
-            stmt.setString(1, subjectTimestamp);
+            stmt.setString(1, subjectId);
             stmt.setString(3, subjectName);
             stmt.setString(4, important);
             stmt.setString(5, deleted);
@@ -30,13 +30,12 @@ public class saveAsDraft {
 
             String[] emailArray = mailId.split(";");
 
-            //before using emailArray, remove duplicate enteries.
-
             for (String mail:emailArray) {
                 if (!mail.equals(""))
                 {
                     stmt.setString(2, mail);
                     stmt.executeUpdate();
+                    //multiple mail entries are ignored. So enjoy !!
                 }
             }
 
