@@ -1,5 +1,7 @@
 package com.ClassroomMail.main.templates;
 
+import com.ClassroomMail.main.functions.timeStampChangeFormat;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -9,8 +11,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class messageFormat {
-
-    public static String[] months = {"","Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"};
 
     public static BorderPane formatmessage(String timestamp, String message, String position){
 
@@ -28,7 +28,7 @@ public class messageFormat {
         messageLabel.setWrapText(true);
         messageLabel.setMaxWidth(320);
 
-        Label time = new Label(timeStampChangeFormat(timestamp));
+        Label time = new Label(timeStampChangeFormat.timeStampChangeFormat(timestamp));
         time.setFont(new Font("Cambria", 12));
         time.setTextFill(Color.web("#4c4c4c"));
         time.setPadding(new Insets(5));
@@ -51,19 +51,5 @@ public class messageFormat {
 
         return notice;
 
-    }
-
-    private static String timeStampChangeFormat(String orignal){
-        String newTime;
-        String[] timearray = orignal.split("\\.");
-
-        if(Integer.parseInt(timearray[3])>12)
-            newTime = (Integer.parseInt(timearray[3])-12) + ":" +timearray[4]+ "pm, ";
-        else
-            newTime = timearray[3] + ":" +timearray[4]+ "am, ";
-
-        newTime = newTime + timearray[2] +" "+ months[Integer.parseInt(timearray[1])] +"'"+ timearray[0].substring(2);
-
-        return newTime;
     }
 }

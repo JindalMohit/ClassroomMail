@@ -2,7 +2,7 @@ package com.ClassroomMail.main.templates;
 
 import com.ClassroomMail.database.mails.sendMail;
 import com.ClassroomMail.main.windows.home.main;
-import com.ClassroomMail.database.mails.saveAsDraft;
+import com.ClassroomMail.database.draft.saveAsDraft;
 import com.ClassroomMail.main.functions.getMotherboardSN;
 
 import de.jensd.fx.glyphs.GlyphsDude;
@@ -98,7 +98,7 @@ public class composeRightPanel {
         markImportant.setFont(new Font("Open Sans", 15));
         markImportant.setTextFill(Color.web("#fff"));
 
-        Label saveDraft = GlyphsDude.createIconLabel( FontAwesomeIcon.ERASER,
+        Label saveDraft = GlyphsDude.createIconLabel( FontAwesomeIcon.SAVE,
                 "Save As draft",
                 "20",
                 "15",

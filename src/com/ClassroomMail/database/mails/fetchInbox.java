@@ -1,6 +1,8 @@
 package com.ClassroomMail.database.mails;
 
 import com.ClassroomMail.database.utils.DBUtils;
+import static com.ClassroomMail.main.templates.mailThread.mailThread;
+
 import javafx.scene.layout.VBox;
 
 import java.sql.Connection;
@@ -15,15 +17,14 @@ public class fetchInbox {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        VBox commentList = new VBox(10);
-
-//        String query = DBUtils.prepareSelectQuery(" * ",
-//                "classroommail.chat", "( ( sender = '"+userMailId+"' AND receiver = '"+currentUserMailId+"' ) OR ( sender = '"+currentUserMailId+"' AND receiver = '"+userMailId+"' ) )",
-//                "ORDER BY timestamp asc" );
+        VBox mailList = new VBox(10);
+        String query = DBUtils.prepareSelectQuery(" * ",
+                "classroommail.mails", "receiverMail LIKE '%"+mailId+"%'",
+                " GROUP BY subjectId ORDER BY messageTimestamp desc " );
 
         try {
             con = DBUtils.getConnection();
-//            stmt = con.prepareStatement(query);
+            stmt = con.prepareStatement(query);
             rs = stmt.executeQuery();
 
             rs.last();
@@ -31,16 +32,16 @@ public class fetchInbox {
             rs.beforeFirst();
 
             if (size>0){
-                int count = 1;
                 while (rs.next()){
-                    String timestamp = rs.getString("timestamp");
-                    String sender = rs.getString("sender");
+                    String subjectId = rs.getString("subjectId");
+                    String messageTimestamp = rs.getString("messageTimestamp");
+                    String subjectName = rs.getString("subjectName");
+                    String senderMail = rs.getString("senderMail");
+                    String receiverMail = rs.getString("receiverMail");
                     String message = rs.getString("message");
 
-//                    if (sender.equals(currentUserMailId))
-//                        commentList.getChildren().add(messageFormat.formatmessage(timestamp, message,"right"));
-//                    else
-//                        commentList.getChildren().add(messageFormat.formatmessage(timestamp, message,"left"));
+                    mailList.getChildren().addAll(mailThread(subjectId,messageTimestamp,subjectName,mailId,message));
+
                 }
             }
 
@@ -48,9 +49,8 @@ public class fetchInbox {
             e.printStackTrace();
         } finally {
             DBUtils.closeAll(rs, stmt, con);
-            return commentList;
+            return mailList;
         }
-
 
     }
 

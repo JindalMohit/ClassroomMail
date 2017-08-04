@@ -164,7 +164,7 @@ public class profile {
 
         //===================================LEFT PANE ENDS=====================================
 
-//        centerPane = centerPanel.centerPanel("Inbox", emailId);
+        centerPane = centerPanel.centerPanel("Inbox", emailId);
 
         BorderPane profilePane = new BorderPane(centerPane,topPane,rightPane,null,leftPane);
 
