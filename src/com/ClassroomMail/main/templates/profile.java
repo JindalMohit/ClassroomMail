@@ -2,16 +2,17 @@ package com.ClassroomMail.main.templates;
 
 import com.ClassroomMail.main.windows.home.main;
 import com.ClassroomMail.database.chat.fetchChatContact;
+import com.ClassroomMail.main.templates.composeRightPanel;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -29,6 +30,8 @@ public class profile {
     public static BorderPane centerPane ;
     public static BorderPane rightPane ;
 
+    final static BooleanProperty firstTime = new SimpleBooleanProperty(true); // Variable to store the focus on stage load
+
     public static Scene main(String completeName, String emailId){
 
         topPane = new BorderPane();
@@ -38,7 +41,6 @@ public class profile {
 
         topPane.setMaxHeight(100);
         leftPane.setPrefWidth(220);
-        rightPane.setMaxWidth(350);
 
         topPane.setPadding(new Insets(10,30,10,30));
         leftPane.setPadding(new Insets(10,30,10,30));
@@ -48,10 +50,49 @@ public class profile {
         //===================================TOP PANE STARTS===================================
 
         Label title = new Label("Classroom Mail");
-        title.setFont(new Font("Open Sans", 20));
+        title.setFont(new Font("Open Sans", 25));
         title.setTextFill(Color.web("#ededed"));
+        title.setPadding(new Insets(5,20,0,0));
+
+        TextField mailSearch = new TextField();
+        mailSearch.setPromptText("Search by keyword, mail Ids, Subject, etc");
+        mailSearch.setFont(new Font("Open Sans", 15));
+        mailSearch.setPrefHeight(30);
+        mailSearch.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
+        mailSearch.setPadding(new Insets(5,10,5,10));
+        mailSearch.focusedProperty().addListener((observable,  oldValue,  newValue) -> {
+            if(newValue && firstTime.get()){
+                leftPane.requestFocus(); // Delegate the focus to container
+                firstTime.setValue(false); // Variable value changed for future references
+            }
+        });
+
+        ComboBox<String> myComboBox = new ComboBox<>();
+        myComboBox.getItems().addAll(
+                "Sort by Latest",
+                "Sort by Oldest",
+                "Sort by Subject");
+        myComboBox.setValue("Sort by Latest");
+        myComboBox.setPadding(new Insets(3));
+        myComboBox.valueProperty().addListener((ov, t, t1) -> {
+            switch (t1) {
+                case "Sort by Latest":
+                    break;
+                case "Sort by Oldest":
+                    break;
+                case "Sort by Subject":
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        HBox filterCombo = new HBox(myComboBox);
+        filterCombo.setPadding(new Insets(5,0,0,30));
 
         topPane.setLeft(title);
+        topPane.setCenter(mailSearch);
+        topPane.setRight(filterCombo);
 
         //===================================TOP PANE ENDS===================================
 
@@ -65,6 +106,9 @@ public class profile {
         compose.setStyle("-fx-background-color: #f4f4ff; -fx-text-color: #444;");
         compose.setAlignment(Pos.CENTER);
         compose.setCursor(Cursor.HAND);
+        compose.setOnMouseClicked(event -> {
+            rightPane.setTop(composeRightPanel.composeRightPanel(emailId));
+        });
 
         options.getChildren().add(compose);
         leftPane.setTop(options);
@@ -119,9 +163,9 @@ public class profile {
 
         leftPane.setCenter(scrollerList);
 
-        //===================================LEFT PANE ENDS===================================
+        //===================================LEFT PANE ENDS=====================================
 
-        //===================================CENTER PANE STARTS===================================
+        //===================================CENTER PANE STARTS=================================
 
         //===================================CENTER PANE ENDS===================================
 

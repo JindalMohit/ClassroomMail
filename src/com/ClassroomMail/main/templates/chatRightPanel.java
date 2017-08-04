@@ -5,6 +5,8 @@ import com.ClassroomMail.database.chat.sendNewMessage;
 import com.ClassroomMail.main.windows.home.main;
 import com.ClassroomMail.main.templates.messageFormat;
 
+import de.jensd.fx.glyphs.GlyphsDude;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -30,23 +32,36 @@ public class chatRightPanel {
         VBox fetchedMessages = new VBox(15);
 
         threadProfile = new BorderPane();
-        threadProfile.setStyle("-fx-background-color: transparent; -fx-border-color: grey; -fx-border-width: 0 0 0 1; -fx-text-color: #eee;");
+        threadProfile.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10; -fx-border-color: grey; -fx-border-width: 0 0 0 1; -fx-text-color: #eee;");
         threadProfile.setPadding(new Insets(10));
+        threadProfile.setPrefWidth(350);
 
         Label header = new Label(userName);
         header.setAlignment(Pos.TOP_LEFT);
-        header.setFont(new Font("Cambria", 22));
-        header.setTextFill(Color.web("#ededed"));
+        header.setFont(new Font("Open Sans", 22));
+        header.setTextFill(Color.web("#eee"));
 
-        BorderPane headerTitle = new BorderPane(null,null,null,null,header);
+        Label close = GlyphsDude.createIconLabel( FontAwesomeIcon.CLOSE,
+                "",
+                "30",
+                "0",
+                ContentDisplay.LEFT );
+        close.setCursor(Cursor.HAND);
+        close.setOnMouseClicked(e-> {
+            threadProfile.getChildren().clear();
+            threadProfile.setPadding(new Insets(0));
+            threadProfile.setPrefWidth(0);
+        });
+
+        BorderPane headerTitle = new BorderPane(null,null,close,null,header);
         headerTitle.setPadding(new Insets(0,0,20,0));
 
         threadProfile.setTop(headerTitle);
 
         messages = new BorderPane();
         messages.setStyle("-fx-background-color: transparent");
-        messages.setPrefHeight(main.window.getHeight()-230);
-        main.window.heightProperty().addListener(e-> messages.setPrefHeight(main.window.getHeight()-230));
+        messages.setPrefHeight(main.window.getHeight()-250);
+        main.window.heightProperty().addListener(e-> messages.setPrefHeight(main.window.getHeight()-250));
 
         fetchedMessages.getChildren().add(fetchChat.fetchChat(userMailId, currentUserMailId));
 
@@ -80,16 +95,18 @@ public class chatRightPanel {
         error.setTextFill(Color.web("red"));
 
         send.setOnAction(e-> {
-            String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-            String status = sendNewMessage.add(timeStamp,currentUserMailId,userMailId, newMessage.getText());
+            if (!newMessage.getText().equals("")){
+                String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                String status = sendNewMessage.add(timeStamp,currentUserMailId,userMailId, newMessage.getText());
 
-            if (Objects.equals(status, "success")){
-                BorderPane newmessage = messageFormat.formatmessage(timeStamp, newMessage.getText(),"right");
-                fetchedMessages.getChildren().add(newmessage);
-                newMessage.setText("");
+                if (Objects.equals(status, "success")){
+                    BorderPane newmessage = messageFormat.formatmessage(timeStamp, newMessage.getText(),"right");
+                    fetchedMessages.getChildren().add(newmessage);
+                    newMessage.setText("");
+                }
+                else
+                    error.setText(status);
             }
-            else
-                error.setText(status);
         });
 
         mymessageCorner.setLeft(newMessage);
