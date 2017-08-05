@@ -1,17 +1,16 @@
 package com.ClassroomMail.database.mails;
 
 import com.ClassroomMail.database.utils.DBUtils;
-import static com.ClassroomMail.main.templates.centerPanel.mailThreads.mailThread;
+import com.ClassroomMail.database.userDetail.getUserName;
 
 import javafx.scene.layout.VBox;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class fetchInboxThread {
+public class fetchThreadMails {
 
-    public static VBox fetchMails(String title, String mailId) {
+    public static VBox fetchThreadMails(String subjectId, String mailId) {
 
         Connection con = null;
         PreparedStatement stmt = null;
@@ -19,8 +18,8 @@ public class fetchInboxThread {
 
         VBox mailList = new VBox(10);
         String query = DBUtils.prepareSelectQuery(" * ",
-                "classroommail.mails", "receiverMail LIKE '%"+mailId+"%'",
-                " GROUP BY subjectId ORDER BY messageTimestamp desc " );
+                "classroommail.threadDetail", "subjectId = "+subjectId+" AND ( senderMail LIKE '%"+mailId+"%' OR receiverMail LIKE '%"+mailId+"%' )",
+                " ORDER BY messageTimestamp asc " );
 
         try {
             con = DBUtils.getConnection();
@@ -33,14 +32,12 @@ public class fetchInboxThread {
 
             if (size>0){
                 while (rs.next()){
-                    String subjectId = rs.getString("subjectId");
                     String messageTimestamp = rs.getString("messageTimestamp");
-                    String subjectName = rs.getString("subjectName");
                     String senderMail = rs.getString("senderMail");
+                    String senderName = getUserName.getUserName(senderMail);
                     String receiverMail = rs.getString("receiverMail");
                     String message = rs.getString("message");
 
-                    mailList.getChildren().addAll(mailThread(subjectId,messageTimestamp,subjectName,mailId,message));
 
                 }
             }

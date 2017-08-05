@@ -4,6 +4,8 @@ import com.ClassroomMail.database.draft.saveAsDraft;
 import com.ClassroomMail.database.mails.sendMail;
 import com.ClassroomMail.main.functions.getMotherboardSN;
 import com.ClassroomMail.main.windows.home.main;
+import static com.ClassroomMail.main.templates.profile.rightPane;
+
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.concurrent.Task;
@@ -22,7 +24,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class mailsRightPanel {
+public class threadDetail {
 
     public static BorderPane threadProfile;
 
@@ -30,24 +32,22 @@ public class mailsRightPanel {
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     public static final Pattern VALID_STRING_REGEX = Pattern.compile("^\\s*$", Pattern.CASE_INSENSITIVE);
 
-    public static BorderPane mailsRightPanel(String subjectId, String mailId){
-
-        
+    public static void mailsRightPanel(String subjectId, String subjectName, String mailId,String isDraft, String draftMessage, String draftReceipent){
 
         threadProfile = new BorderPane();
-        threadProfile.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;");
+        threadProfile.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5);");
         threadProfile.setPadding(new Insets(10));
         threadProfile.setPrefWidth(400);
         threadProfile.setPrefHeight(1500);
 
-        Label header = new Label("New Message");
+        Label header = new Label(subjectName);
         header.setAlignment(Pos.TOP_LEFT);
-        header.setFont(new Font("Cambria", 22));
+        header.setFont(new Font("Cambria", 20));
         header.setTextFill(Color.web("#eee"));
 
         Label close = GlyphsDude.createIconLabel( FontAwesomeIcon.CLOSE,
                 "",
-                "30",
+                "25",
                 "0",
                 ContentDisplay.LEFT );
         close.setCursor(Cursor.HAND);
@@ -136,7 +136,7 @@ public class mailsRightPanel {
                 String messageTimestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
                 String composeId =  messageTimestamp + getMotherboardSN.getMotherboardSN();
 
-                String status = sendMail.sendMail(messageTimestamp,composeId,mailSubject,userMailId,reciepentList,body.getText(), markImportant.isSelected());
+                String status = sendMail.sendMail(messageTimestamp,composeId,mailSubject,mailId,reciepentList,body.getText(), markImportant.isSelected());
                 if (status.equals("success")){
                     threadProfile.getChildren().clear();
                     threadProfile.setPadding(new Insets(0));
@@ -175,7 +175,7 @@ public class mailsRightPanel {
             String composeId = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) +
                     getMotherboardSN.getMotherboardSN();
 
-            String status = saveAsDraft.saveAsDraft(composeId,userMailId,mailSubject,markImportant.isSelected()+"","false","true","true",body.getText(), reciepentList );
+            String status = saveAsDraft.saveAsDraft(composeId,mailId,mailSubject,markImportant.isSelected()+"","false","true","true",body.getText(), reciepentList );
             if (status.equals("success")){
                 threadProfile.getChildren().clear();
                 threadProfile.setPadding(new Insets(0));
@@ -206,8 +206,7 @@ public class mailsRightPanel {
 
         threadProfile.setCenter(messageDetail);
 
-        return threadProfile;
-
+        rightPane.setCenter(threadProfile);
     }
 
     public static boolean mailvalidate(String emailStr) {

@@ -1,7 +1,7 @@
 package com.ClassroomMail.database.chat;
 
 import com.ClassroomMail.database.utils.DBUtils;
-import com.ClassroomMail.main.templates.rightPanel.chatRightPanel;
+import com.ClassroomMail.main.templates.rightPanel.chat;
 import com.ClassroomMail.database.userDetail.getUserName;
 
 import javafx.geometry.Insets;
@@ -88,7 +88,7 @@ public class fetchChatContact {
         contactLabel.setAlignment(Pos.BASELINE_LEFT);
 
         contactLabel.setOnMouseClicked(e-> {
-            rightPane.setTop(chatRightPanel.chatRightPanel(userName, userMailId, currentUserMailId));
+            rightPane.setTop(chat.chatRightPanel(userName, userMailId, currentUserMailId));
         });
 
         messageList.getChildren().add(new HBox(5,contactlogo,contactLabel));

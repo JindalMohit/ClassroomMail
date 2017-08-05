@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class composeRightPanel {
+public class compose {
 
     public static BorderPane threadProfile;
 
@@ -34,7 +34,7 @@ public class composeRightPanel {
     public static BorderPane composeRightPanel(String userMailId){
 
         threadProfile = new BorderPane();
-        threadProfile.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;");
+        threadProfile.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5);");
         threadProfile.setPadding(new Insets(10));
         threadProfile.setPrefWidth(400);
         threadProfile.setPrefHeight(1500);

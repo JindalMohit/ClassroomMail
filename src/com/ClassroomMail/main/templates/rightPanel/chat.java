@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.Objects;
 
 
-public class chatRightPanel {
+public class chat {
 
     public static ScrollPane scroller;
     public static BorderPane threadProfile;
@@ -32,7 +32,7 @@ public class chatRightPanel {
         VBox fetchedMessages = new VBox(15);
 
         threadProfile = new BorderPane();
-        threadProfile.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10; -fx-border-color: grey; -fx-border-width: 0 0 0 1; -fx-text-color: #eee;");
+        threadProfile.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-border-color: grey; -fx-border-width: 0 0 0 1; -fx-text-color: #eee;");
         threadProfile.setPadding(new Insets(10));
         threadProfile.setPrefWidth(350);
 

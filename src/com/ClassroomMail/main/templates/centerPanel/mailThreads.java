@@ -3,9 +3,9 @@ package com.ClassroomMail.main.templates.centerPanel;
 import com.ClassroomMail.database.draft.updateMailOptions;
 import com.ClassroomMail.main.functions.timeStampChangeFormat;
 import com.ClassroomMail.database.draft.fetchSubjectDetails;
-
-import com.ClassroomMail.main.templates.rightPanel.mailsRightPanel;
+import com.ClassroomMail.main.templates.rightPanel.threadDetail;
 import com.ClassroomMail.main.windows.home.main;
+
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.geometry.Insets;
@@ -19,7 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class mailThread {
+public class mailThreads {
 
     public static BorderPane mailThread(String subjectId, String messageTimestamp, String subjectName, String mailId, String message){
 
@@ -102,7 +102,7 @@ public class mailThread {
         mailContent.setOnMouseClicked(e-> {
             String status = updateMailOptions.update(subjectId,mailId,"latestMessageRead", "true");
             if (status.equals("success")){
-                mailsRightPanel.mailsRightPanel(subjectId,mailId);
+                threadDetail.mailsRightPanel(subjectId,subjectName, mailId, response[3],response[4],response[5]);
                 mails.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 2;");
             }
         });

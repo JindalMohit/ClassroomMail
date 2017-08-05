@@ -2,7 +2,6 @@ package com.ClassroomMail.main.templates;
 
 import com.ClassroomMail.main.templates.centerPanel.centerPanel;
 import com.ClassroomMail.main.templates.leftPanel.addToContact;
-import com.ClassroomMail.main.templates.rightPanel.composeRightPanel;
 import com.ClassroomMail.main.windows.home.main;
 import com.ClassroomMail.database.chat.fetchChatContact;
 
@@ -109,7 +108,7 @@ public class profile {
         compose.setAlignment(Pos.CENTER);
         compose.setCursor(Cursor.HAND);
         compose.setOnMouseClicked(event -> {
-            rightPane.setTop(composeRightPanel.composeRightPanel(emailId));
+            rightPane.setTop(com.ClassroomMail.main.templates.rightPanel.compose.composeRightPanel(emailId));
         });
 
         options.getChildren().add(compose);
