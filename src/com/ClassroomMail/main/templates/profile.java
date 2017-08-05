@@ -25,7 +25,7 @@ public class profile {
 
     public static Scene scene;
     private static VBox options;
-
+    public static ComboBox<String> myComboBox;
     public static BorderPane topPane ;
     public static BorderPane leftPane ;
     public static BorderPane centerPane ;
@@ -69,12 +69,10 @@ public class profile {
             }
         });
 
-        ComboBox<String> myComboBox = new ComboBox<>();
+        myComboBox = new ComboBox<>();
         myComboBox.getItems().addAll(
                 "Sort by Latest",
-                "Sort by Oldest",
-                "Sort by Subject",
-                "Sort by Important");
+                "Sort by Oldest");
         myComboBox.setValue("Sort by Latest");
         myComboBox.setPadding(new Insets(3));
         myComboBox.valueProperty().addListener((ov, t, t1) -> {
@@ -82,12 +80,6 @@ public class profile {
                 case "Sort by Latest":
                     break;
                 case "Sort by Oldest":
-                    break;
-                case "Sort by Subject":
-                    break;
-                case "Sort by Important":
-                    break;
-                default:
                     break;
             }
         });
@@ -172,7 +164,7 @@ public class profile {
 
         //===================================CENTER PANE STARTS=====================================
 
-        centerPane = centerPanel.centerPanel("Inbox", emailId);
+        centerPane.setCenter(centerPanel.centerPanel("Inbox", emailId,"ORDER BY messageTimestamp desc"));
 
         //===================================CENTER PANE ENDS=====================================
 
@@ -204,7 +196,17 @@ public class profile {
 
         options.getChildren().add(label);
 
-        label.setOnMouseClicked(e-> centerPane = centerPanel.centerPanel(title, emailId));
+        label.setOnMouseClicked(e-> {
+
+            String filter ="";
+            if (myComboBox.getValue().equals("Sort by Latest"))
+                filter = "ORDER BY messageTimestamp desc";
+            else if (myComboBox.getValue().equals("Sort by Oldest"))
+                filter = "ORDER BY messageTimestamp asc";
+
+            String finalFilter = filter;
+            centerPane.setCenter(centerPanel.centerPanel(title, emailId, finalFilter));
+        });
 
         return label;
 

@@ -1,17 +1,18 @@
 package com.ClassroomMail.database.mails;
 
+import com.ClassroomMail.database.draft.fetchThreadDetails;
 import com.ClassroomMail.database.utils.DBUtils;
-import static com.ClassroomMail.main.templates.centerPanel.mailThreads.mailThread;
-
 import javafx.scene.layout.VBox;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class fetchInboxThread {
+import static com.ClassroomMail.main.templates.centerPanel.mailThreads.mailThread;
 
-    public static VBox fetchMails(String mailId, String filter) {
+public class fetchImportantThread {
+
+    public static VBox fetchMails(String mailId,String filter) {
 
         Connection con = null;
         PreparedStatement stmt = null;
@@ -25,7 +26,7 @@ public class fetchInboxThread {
         try {
             con = DBUtils.getConnection();
             stmt = con.prepareStatement(query);
-                    rs = stmt.executeQuery();
+            rs = stmt.executeQuery();
 
             rs.last();
             int size = rs.getRow();
@@ -37,7 +38,10 @@ public class fetchInboxThread {
                     String messageTimestamp = rs.getString("messageTimestamp");
                     String message = rs.getString("message");
 
-                    mailList.getChildren().addAll(mailThread(subjectId,messageTimestamp,mailId,message));
+                    String[] response = fetchThreadDetails.fetchSubjectDetails(subjectId,mailId);
+
+                    if (response[1].equals("true"))
+                        mailList.getChildren().addAll(mailThread(subjectId,messageTimestamp,mailId,message));
 
                 }
             }
