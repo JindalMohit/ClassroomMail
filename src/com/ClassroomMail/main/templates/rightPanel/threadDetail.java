@@ -43,12 +43,13 @@ public class threadDetail {
 
         threadProfile = new BorderPane();
         threadProfile.setPadding(new Insets(10));
-        threadProfile.setPrefWidth(400);
+        threadProfile.setMaxWidth(400);
 
         Label header = new Label(subjectName);
         header.setAlignment(Pos.TOP_LEFT);
         header.setFont(new Font("Cambria", 20));
         header.setTextFill(Color.web("#eee"));
+        header.setMaxWidth(350);
 
         Label close = GlyphsDude.createIconLabel( FontAwesomeIcon.CLOSE,
                 "",

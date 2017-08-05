@@ -30,7 +30,10 @@ public class sendMail {
 
             if (source.equals("compose")){
                 newThread.saveAsDraft(subjectId,receiverMail,subjectName,markimportant,"false","false","false","","");
-                newThread.saveAsDraft(subjectId,senderMail,subjectName,markimportant,"false","true","false","","");
+
+                String isPresent = findUserInThread.finUserInThread(subjectId,senderMail); //whether user already present in receiver ,ail
+                if (isPresent.equals("false")){}
+                    newThread.saveAsDraft(subjectId,senderMail,subjectName,markimportant,"false","true","false","","");
             }
             else{       //as a reply
                 //making latest message read here as false for receiver entries
