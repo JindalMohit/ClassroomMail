@@ -2,7 +2,7 @@ package com.ClassroomMail.database.mails;
 
 import com.ClassroomMail.database.utils.DBUtils;
 import com.ClassroomMail.database.userDetail.getUserName;
-
+import com.ClassroomMail.main.templates.rightPanel.mailInfo;
 import javafx.scene.layout.VBox;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +18,7 @@ public class fetchThreadMails {
 
         VBox mailList = new VBox(10);
         String query = DBUtils.prepareSelectQuery(" * ",
-                "classroommail.threadDetail", "subjectId = "+subjectId+" AND ( senderMail LIKE '%"+mailId+"%' OR receiverMail LIKE '%"+mailId+"%' )",
+                "classroommail.mails", " subjectId = '"+subjectId+"' AND ( senderMail LIKE '%"+mailId+"%' OR receiverMail LIKE '%"+mailId+"%' )",
                 " ORDER BY messageTimestamp asc " );
 
         try {
@@ -38,7 +38,7 @@ public class fetchThreadMails {
                     String receiverMail = rs.getString("receiverMail");
                     String message = rs.getString("message");
 
-
+                    mailList.getChildren().addAll(mailInfo.mailInfo(senderName,messageTimestamp,receiverMail,message));
                 }
             }
 

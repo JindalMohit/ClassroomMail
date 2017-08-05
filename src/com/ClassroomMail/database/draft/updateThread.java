@@ -5,7 +5,7 @@ import com.ClassroomMail.database.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-public class updateMailOptions {
+public class updateThread {
 
     public static String update(String subjectId, String mailId, String columnName, String value){
 

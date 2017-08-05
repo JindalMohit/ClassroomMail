@@ -39,6 +39,7 @@ public class profile {
         leftPane = new BorderPane();
         centerPane = new BorderPane();
         rightPane = new BorderPane();
+        rightPane.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-border-color: grey; -fx-border-width: 0 0 0 1; -fx-text-color: #eee;");
 
         topPane.setMaxHeight(100);
         leftPane.setPrefWidth(220);

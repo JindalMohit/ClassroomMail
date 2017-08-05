@@ -32,7 +32,6 @@ public class chat {
         VBox fetchedMessages = new VBox(15);
 
         threadProfile = new BorderPane();
-        threadProfile.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-border-color: grey; -fx-border-width: 0 0 0 1; -fx-text-color: #eee;");
         threadProfile.setPadding(new Insets(10));
         threadProfile.setPrefWidth(350);
 

@@ -1,10 +1,11 @@
 package com.ClassroomMail.main.templates.centerPanel;
 
-import com.ClassroomMail.database.draft.updateMailOptions;
+import com.ClassroomMail.database.draft.updateThread;
 import com.ClassroomMail.main.functions.timeStampChangeFormat;
-import com.ClassroomMail.database.draft.fetchSubjectDetails;
+import com.ClassroomMail.database.draft.fetchThreadDetails;
 import com.ClassroomMail.main.templates.rightPanel.threadDetail;
 import com.ClassroomMail.main.windows.home.main;
+import static com.ClassroomMail.main.templates.profile.rightPane;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -23,7 +24,7 @@ public class mailThreads {
 
     public static BorderPane mailThread(String subjectId, String messageTimestamp, String subjectName, String mailId, String message){
 
-        String[] response = fetchSubjectDetails.fetchSubjectDetails(subjectId,mailId);
+        String[] response = fetchThreadDetails.fetchSubjectDetails(subjectId,mailId);
 
         if (response[1].equals("true")) //checking for deleted thread
             return new BorderPane();
@@ -79,19 +80,19 @@ public class mailThreads {
         else
             mails.setStyle("-fx-background-color: rgba(0, 100, 100, 1); -fx-background-radius: 2;");
 
-        main.window.widthProperty().addListener(e-> mailContent.setPrefWidth(mails.getWidth()-220));
-        mails.widthProperty().addListener(e-> mailContent.setPrefWidth(mails.getWidth()-220));
+        main.window.widthProperty().addListener(e-> mailContent.setMaxWidth(mails.getWidth()-220));
+        mails.widthProperty().addListener(e-> mailContent.setMaxWidth(mails.getWidth()-220));
 
         tag.setOnMouseClicked(e-> {
             if (importantTag.getText().equals("i")){
-                String status = updateMailOptions.update(subjectId,mailId,"important", "false");
+                String status = updateThread.update(subjectId,mailId,"important", "false");
                 if (status.equals("success")){
                     importantTag.setText("");
                     importantTag.setStyle("-fx-background-color: transparent; -fx-border-color: grey; -fx-border-width: 1 1 1 1; ");
                 }
             }
             else{
-                String status = updateMailOptions.update(subjectId,mailId,"important", "true");
+                String status = updateThread.update(subjectId,mailId,"important", "true");
                 if (status.equals("success")){
                     importantTag.setText("i");
                     importantTag.setStyle("-fx-background-color: #FFD700; -fx-border-color: #FFD700; -fx-border-width: 1 1 1 1; ");
@@ -100,15 +101,15 @@ public class mailThreads {
         });
 
         mailContent.setOnMouseClicked(e-> {
-            String status = updateMailOptions.update(subjectId,mailId,"latestMessageRead", "true");
+            String status = updateThread.update(subjectId,mailId,"latestMessageRead", "true");
             if (status.equals("success")){
-                threadDetail.mailsRightPanel(subjectId,subjectName, mailId, response[3],response[4],response[5]);
+                rightPane.setTop(threadDetail.mailsRightPanel(subjectId,subjectName, mailId));
                 mails.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 2;");
             }
         });
 
         delete.setOnMouseClicked(e-> {
-            String status = updateMailOptions.update(subjectId,mailId,"deleted", "true");
+            String status = updateThread.update(subjectId,mailId,"deleted", "true");
             if (status.equals("success")){
                 mails.getChildren().clear();
                 mails.setPrefWidth(0);

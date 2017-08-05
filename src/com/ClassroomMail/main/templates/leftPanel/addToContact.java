@@ -65,7 +65,7 @@ public class addToContact {
         );
 
         newUser.setScene(scene);
-        newUser.getIcons().add(new Image(getClass().getResourceAsStream("../resources/images/ClassroomMail.png")));
+        newUser.getIcons().add(new Image(getClass().getResourceAsStream("../../resources/images/ClassroomMail.png")));
         newUser.setTitle("Add to Contact");
         newUser.setResizable(false);
         newUser.initModality(Modality.APPLICATION_MODAL);

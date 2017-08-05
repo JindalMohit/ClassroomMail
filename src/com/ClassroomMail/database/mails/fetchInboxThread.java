@@ -25,7 +25,7 @@ public class fetchInboxThread {
         try {
             con = DBUtils.getConnection();
             stmt = con.prepareStatement(query);
-            rs = stmt.executeQuery();
+                    rs = stmt.executeQuery();
 
             rs.last();
             int size = rs.getRow();

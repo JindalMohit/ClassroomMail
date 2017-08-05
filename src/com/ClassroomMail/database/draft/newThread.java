@@ -5,7 +5,7 @@ import com.ClassroomMail.database.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-public class saveAsDraft {
+public class newThread {
 
     public static String saveAsDraft(String subjectId, String mailId, String subjectName, String important, String deleted, String latestMessageRead, String isDraft, String draftMessage, String draftReceipents){
         Connection con = null;

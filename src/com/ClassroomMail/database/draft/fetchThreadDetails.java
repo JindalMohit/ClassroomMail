@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class fetchSubjectDetails {
+public class fetchThreadDetails {
 
     public static String[] fetchSubjectDetails(String subjectId, String mailId) {
 

@@ -1,6 +1,8 @@
 package com.ClassroomMail.database.mails;
 
-import com.ClassroomMail.database.draft.saveAsDraft;
+import com.ClassroomMail.database.draft.findUserInThread;
+import com.ClassroomMail.database.draft.newThread;
+import com.ClassroomMail.database.draft.updateThread;
 import com.ClassroomMail.database.utils.DBUtils;
 
 import java.sql.Connection;
@@ -8,7 +10,7 @@ import java.sql.PreparedStatement;
 
 public class sendMail {
 
-    public static String sendMail(String messageTimestamp, String subjectId, String subjectName, String senderMail, String receiverMail, String message, boolean markimportant){
+    public static String sendMail(String messageTimestamp, String subjectId, String subjectName, String senderMail, String receiverMail, String message, String markimportant, String source){
         Connection con = null;
         PreparedStatement stmt = null;
 
@@ -27,9 +29,26 @@ public class sendMail {
             stmt.setString(6, message);
             stmt.executeUpdate();
 
-            saveAsDraft.saveAsDraft(subjectId,receiverMail,subjectName,markimportant+"","false","false","false","","");
+            if (!source.equals("reply")){
+                newThread.saveAsDraft(subjectId,receiverMail,subjectName,markimportant,"false","false","false","","");
+                newThread.saveAsDraft(subjectId,senderMail,subjectName,markimportant,"false","true","false","","");
+            }
+            else{
+                //making latest message read here as false for receiver entries
+                String[] emailArray = receiverMail.split(";");
 
-            saveAsDraft.saveAsDraft(subjectId,senderMail,subjectName,markimportant+"","false","true","false","","");
+                for (String mail:emailArray) {
+                    if (!mail.equals(""))
+                    {
+                        String userInThread = findUserInThread.finUserInThread(subjectId,mail);
+                        if (userInThread.equals("false"))
+                            newThread.saveAsDraft(subjectId,mail,subjectName,markimportant,"false","false","false","","");
+                        else
+                            updateThread.update(subjectId,mail,"latestMessageRead", "false");
+                        //repetitive mail entries are ignored. So enjoy !!
+                    }
+                }
+            }
 
             status="success";
 

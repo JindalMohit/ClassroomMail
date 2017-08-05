@@ -2,7 +2,7 @@ package com.ClassroomMail.main.templates.rightPanel;
 
 import com.ClassroomMail.database.mails.sendMail;
 import com.ClassroomMail.main.windows.home.main;
-import com.ClassroomMail.database.draft.saveAsDraft;
+import com.ClassroomMail.database.draft.newThread;
 import com.ClassroomMail.main.functions.getMotherboardSN;
 
 import de.jensd.fx.glyphs.GlyphsDude;
@@ -34,7 +34,6 @@ public class compose {
     public static BorderPane composeRightPanel(String userMailId){
 
         threadProfile = new BorderPane();
-        threadProfile.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5);");
         threadProfile.setPadding(new Insets(10));
         threadProfile.setPrefWidth(400);
         threadProfile.setPrefHeight(1500);
@@ -135,7 +134,7 @@ public class compose {
                 String messageTimestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
                 String composeId =  messageTimestamp + getMotherboardSN.getMotherboardSN();
 
-                String status = sendMail.sendMail(messageTimestamp,composeId,mailSubject,userMailId,reciepentList,body.getText(), markImportant.isSelected());
+                String status = sendMail.sendMail(messageTimestamp,composeId,mailSubject,userMailId,reciepentList,body.getText(), markImportant.isSelected()+"","compose");
                 if (status.equals("success")){
                     threadProfile.getChildren().clear();
                     threadProfile.setPadding(new Insets(0));
@@ -174,7 +173,7 @@ public class compose {
             String composeId = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) +
                     getMotherboardSN.getMotherboardSN();
 
-            String status = saveAsDraft.saveAsDraft(composeId,userMailId,mailSubject,markImportant.isSelected()+"","false","true","true",body.getText(), reciepentList );
+            String status = newThread.saveAsDraft(composeId,userMailId,mailSubject,markImportant.isSelected()+"","false","true","true",body.getText(), reciepentList );
             if (status.equals("success")){
                 threadProfile.getChildren().clear();
                 threadProfile.setPadding(new Insets(0));
