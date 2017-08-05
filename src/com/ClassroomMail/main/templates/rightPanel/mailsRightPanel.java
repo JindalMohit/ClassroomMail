@@ -1,10 +1,9 @@
-package com.ClassroomMail.main.templates;
+package com.ClassroomMail.main.templates.rightPanel;
 
-import com.ClassroomMail.database.mails.sendMail;
-import com.ClassroomMail.main.windows.home.main;
 import com.ClassroomMail.database.draft.saveAsDraft;
+import com.ClassroomMail.database.mails.sendMail;
 import com.ClassroomMail.main.functions.getMotherboardSN;
-
+import com.ClassroomMail.main.windows.home.main;
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.concurrent.Task;
@@ -23,7 +22,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class composeRightPanel {
+public class mailsRightPanel {
 
     public static BorderPane threadProfile;
 
@@ -31,7 +30,9 @@ public class composeRightPanel {
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     public static final Pattern VALID_STRING_REGEX = Pattern.compile("^\\s*$", Pattern.CASE_INSENSITIVE);
 
-    public static BorderPane composeRightPanel(String userMailId){
+    public static BorderPane mailsRightPanel(String subjectId, String mailId){
+
+        
 
         threadProfile = new BorderPane();
         threadProfile.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;");
@@ -186,12 +187,12 @@ public class composeRightPanel {
             Task<Void> sleeper = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return null;
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
                 }
             };
             sleeper.setOnSucceeded(ee-> {

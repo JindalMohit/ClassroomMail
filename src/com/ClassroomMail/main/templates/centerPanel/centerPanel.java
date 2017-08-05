@@ -1,10 +1,10 @@
-package com.ClassroomMail.main.templates;
+package com.ClassroomMail.main.templates.centerPanel;
 
 import com.ClassroomMail.main.windows.home.main;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
-import com.ClassroomMail.database.mails.fetchInbox;
+import com.ClassroomMail.database.mails.fetchInboxThread;
 import javafx.scene.layout.VBox;
 
 public class centerPanel {
@@ -16,7 +16,7 @@ public class centerPanel {
 
         switch (title) {
             case "Inbox":
-                mailList = fetchInbox.fetchMails(title,userMailId);
+                mailList = fetchInboxThread.fetchMails(title,userMailId);
                 break;
             case "Important":
                 System.out.println("Important");

@@ -1,8 +1,9 @@
-package com.ClassroomMail.main.templates;
+package com.ClassroomMail.main.templates.leftPanel;
 
 import com.ClassroomMail.database.chat.sendNewMessage;
 import com.ClassroomMail.database.userDetail.getUserName;
 
+import com.ClassroomMail.main.templates.loginHome;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

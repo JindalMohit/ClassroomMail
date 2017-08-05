@@ -1,7 +1,7 @@
 package com.ClassroomMail.database.chat;
 
 import com.ClassroomMail.database.utils.DBUtils;
-import com.ClassroomMail.main.templates.chatRightPanel;
+import com.ClassroomMail.main.templates.rightPanel.chatRightPanel;
 import com.ClassroomMail.database.userDetail.getUserName;
 
 import javafx.geometry.Insets;

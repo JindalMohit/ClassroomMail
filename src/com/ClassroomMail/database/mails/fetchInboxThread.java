@@ -1,7 +1,7 @@
 package com.ClassroomMail.database.mails;
 
 import com.ClassroomMail.database.utils.DBUtils;
-import static com.ClassroomMail.main.templates.mailThread.mailThread;
+import static com.ClassroomMail.main.templates.centerPanel.mailThread.mailThread;
 
 import javafx.scene.layout.VBox;
 
@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class fetchInbox {
+public class fetchInboxThread {
 
     public static VBox fetchMails(String title, String mailId) {
 

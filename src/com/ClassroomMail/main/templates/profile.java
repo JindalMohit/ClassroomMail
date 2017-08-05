@@ -1,5 +1,8 @@
 package com.ClassroomMail.main.templates;
 
+import com.ClassroomMail.main.templates.centerPanel.centerPanel;
+import com.ClassroomMail.main.templates.leftPanel.addToContact;
+import com.ClassroomMail.main.templates.rightPanel.composeRightPanel;
 import com.ClassroomMail.main.windows.home.main;
 import com.ClassroomMail.database.chat.fetchChatContact;
 

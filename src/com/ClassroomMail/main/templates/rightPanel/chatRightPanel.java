@@ -1,4 +1,4 @@
-package com.ClassroomMail.main.templates;
+package com.ClassroomMail.main.templates.rightPanel;
 
 import com.ClassroomMail.database.chat.fetchChat;
 import com.ClassroomMail.database.chat.sendNewMessage;

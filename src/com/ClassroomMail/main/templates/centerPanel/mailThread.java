@@ -1,9 +1,10 @@
-package com.ClassroomMail.main.templates;
+package com.ClassroomMail.main.templates.centerPanel;
 
 import com.ClassroomMail.database.draft.updateMailOptions;
 import com.ClassroomMail.main.functions.timeStampChangeFormat;
 import com.ClassroomMail.database.draft.fetchSubjectDetails;
 
+import com.ClassroomMail.main.templates.rightPanel.mailsRightPanel;
 import com.ClassroomMail.main.windows.home.main;
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -100,8 +101,10 @@ public class mailThread {
 
         mailContent.setOnMouseClicked(e-> {
             String status = updateMailOptions.update(subjectId,mailId,"latestMessageRead", "true");
-            if (status.equals("success"))
+            if (status.equals("success")){
+                mailsRightPanel.mailsRightPanel(subjectId,mailId);
                 mails.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 2;");
+            }
         });
 
         delete.setOnMouseClicked(e-> {
