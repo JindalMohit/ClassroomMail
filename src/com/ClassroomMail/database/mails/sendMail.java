@@ -14,7 +14,7 @@ public class sendMail {
         Connection con = null;
         PreparedStatement stmt = null;
 
-        String query = DBUtils.prepareInsertQuery("classroommail.mails", "messageTimestamp, subjectId, subjectName, senderMail, receiverMail, message","?,?,?,?,?,?");
+        String query = DBUtils.prepareInsertQuery("classroommail.mails", "messageTimestamp, subjectId, senderMail, receiverMail, message","?,?,?,?,?");
 
         String status = "ongoing";
 
@@ -23,29 +23,29 @@ public class sendMail {
             stmt = con.prepareStatement(query);
             stmt.setString(1, messageTimestamp);
             stmt.setString(2, subjectId);
-            stmt.setString(3, subjectName);
-            stmt.setString(4, senderMail);
-            stmt.setString(5, receiverMail);
-            stmt.setString(6, message);
+            stmt.setString(3, senderMail);
+            stmt.setString(4, receiverMail);
+            stmt.setString(5, message);
             stmt.executeUpdate();
 
-            if (!source.equals("reply")){
+            if (source.equals("compose")){
                 newThread.saveAsDraft(subjectId,receiverMail,subjectName,markimportant,"false","false","false","","");
                 newThread.saveAsDraft(subjectId,senderMail,subjectName,markimportant,"false","true","false","","");
             }
-            else{
+            else{       //as a reply
                 //making latest message read here as false for receiver entries
                 String[] emailArray = receiverMail.split(";");
 
                 for (String mail:emailArray) {
                     if (!mail.equals(""))
                     {
-                        String userInThread = findUserInThread.finUserInThread(subjectId,mail);
-                        if (userInThread.equals("false"))
-                            newThread.saveAsDraft(subjectId,mail,subjectName,markimportant,"false","false","false","","");
-                        else
+                        String isUserInThread = findUserInThread.finUserInThread(subjectId,mail);
+                        if (isUserInThread.equals("true")){
                             updateThread.update(subjectId,mail,"latestMessageRead", "false");
-                        //repetitive mail entries are ignored. So enjoy !!
+                            updateThread.update(subjectId,mail,"deleted", "false"); //if user deleted your data
+                        }
+                        else
+                            newThread.saveAsDraft(subjectId,mail,"Fwd: "+subjectName,markimportant,"false","false","false","","");
                     }
                 }
             }

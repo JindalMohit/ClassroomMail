@@ -22,15 +22,15 @@ import javafx.scene.text.Font;
 
 public class mailThreads {
 
-    public static BorderPane mailThread(String subjectId, String messageTimestamp, String subjectName, String mailId, String message){
+    public static BorderPane mailThread(String subjectId, String messageTimestamp, String mailId, String message){
 
         String[] response = fetchThreadDetails.fetchSubjectDetails(subjectId,mailId);
 
-        if (response[1].equals("true")) //checking for deleted thread
+        if (response[2].equals("true")) //checking for deleted thread
             return new BorderPane();
 
         Label importantTag = new Label();
-        if(response[0].equals("true")){
+        if(response[1].equals("true")){
             importantTag.setText("i");
             importantTag.setStyle("-fx-background-color: #FFD700; -fx-border-color: #FFD700; -fx-border-width: 1 1 1 1;");
         }
@@ -46,7 +46,7 @@ public class mailThreads {
         tag.setPadding(new Insets(10));
         tag.setCursor(Cursor.HAND);
 
-        Label subject = new Label(subjectName);
+        Label subject = new Label(response[0]);
         subject.setFont(new Font("Open Sans", 17));
         subject.setPadding(new Insets(8));
         subject.setTextFill(Color.web("#fff"));
@@ -73,9 +73,10 @@ public class mailThreads {
         lastMessageTime.setPadding(new Insets(10));
         lastMessageTime.setTextFill(Color.web("#fff"));
         lastMessageTime.setAlignment(Pos.CENTER_RIGHT);
+        lastmessage.setMaxHeight(50);
 
         final BorderPane mails = new BorderPane(null, null, new HBox(0, delete, lastMessageTime), null, new HBox(0, tag, mailContent));
-        if(response[2].equals("true"))
+        if(response[3].equals("true"))
             mails.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 2;");
         else
             mails.setStyle("-fx-background-color: rgba(0, 100, 100, 1); -fx-background-radius: 2;");
@@ -103,7 +104,7 @@ public class mailThreads {
         mailContent.setOnMouseClicked(e-> {
             String status = updateThread.update(subjectId,mailId,"latestMessageRead", "true");
             if (status.equals("success")){
-                rightPane.setTop(threadDetail.mailsRightPanel(subjectId,subjectName, mailId));
+                rightPane.setTop(threadDetail.mailsRightPanel(subjectId,response[0],mailId));
                 mails.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 2;");
             }
         });

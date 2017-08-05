@@ -37,9 +37,9 @@ public class threadDetail {
 
         String[] response = fetchThreadDetails.fetchSubjectDetails(subjectId,mailId);
 
-        String isDraft = response[3];
-        String draftMessage = response[4];
-        String draftReceipent = response[5];
+        String isDraft = response[4];
+        String draftMessage = response[5];
+        String draftReceipent = response[6];
 
         threadProfile = new BorderPane();
         threadProfile.setPadding(new Insets(10));
@@ -143,7 +143,7 @@ public class threadDetail {
             else{
                 String messageTimestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 
-                String status = sendMail.sendMail(messageTimestamp,subjectId,subjectName,mailId,reciepentList,body.getText(), response[0],"reply");
+                String status = sendMail.sendMail(messageTimestamp,subjectId,subjectName,mailId,reciepentList,body.getText(), response[1],"reply");
                 if (status.equals("success")){
                     String senderName = getUserName.getUserName(mailId);
                     mailList.getChildren().add(mailInfo.mailInfo(senderName,messageTimestamp,reciepentList,body.getText()));

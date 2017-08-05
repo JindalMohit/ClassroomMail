@@ -73,7 +73,8 @@ public class profile {
         myComboBox.getItems().addAll(
                 "Sort by Latest",
                 "Sort by Oldest",
-                "Sort by Subject");
+                "Sort by Subject",
+                "Sort by Important");
         myComboBox.setValue("Sort by Latest");
         myComboBox.setPadding(new Insets(3));
         myComboBox.valueProperty().addListener((ov, t, t1) -> {
@@ -83,6 +84,8 @@ public class profile {
                 case "Sort by Oldest":
                     break;
                 case "Sort by Subject":
+                    break;
+                case "Sort by Important":
                     break;
                 default:
                     break;
@@ -167,7 +170,12 @@ public class profile {
 
         //===================================LEFT PANE ENDS=====================================
 
+        //===================================CENTER PANE STARTS=====================================
+
         centerPane = centerPanel.centerPanel("Inbox", emailId);
+
+        //===================================CENTER PANE ENDS=====================================
+
 
         BorderPane profilePane = new BorderPane(centerPane,topPane,rightPane,null,leftPane);
 

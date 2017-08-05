@@ -43,6 +43,7 @@ public class newThread {
 
         }
         catch(Exception e){
+            e.printStackTrace();
             status = e.getMessage();
         }
         finally{

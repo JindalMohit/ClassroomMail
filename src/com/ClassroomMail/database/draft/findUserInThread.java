@@ -27,7 +27,6 @@ public class findUserInThread {
 
             rs.last();
             int size = rs.getRow();
-
             if (size>0)
                 return "true";
 

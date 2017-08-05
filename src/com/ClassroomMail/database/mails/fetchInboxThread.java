@@ -35,12 +35,9 @@ public class fetchInboxThread {
                 while (rs.next()){
                     String subjectId = rs.getString("subjectId");
                     String messageTimestamp = rs.getString("messageTimestamp");
-                    String subjectName = rs.getString("subjectName");
-                    String senderMail = rs.getString("senderMail");
-                    String receiverMail = rs.getString("receiverMail");
                     String message = rs.getString("message");
 
-                    mailList.getChildren().addAll(mailThread(subjectId,messageTimestamp,subjectName,mailId,message));
+                    mailList.getChildren().addAll(mailThread(subjectId,messageTimestamp,mailId,message));
 
                 }
             }

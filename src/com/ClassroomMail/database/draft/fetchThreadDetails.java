@@ -17,7 +17,7 @@ public class fetchThreadDetails {
         String query = DBUtils.prepareSelectQuery(" * ",
                 "classroommail.subjectdetails", " ( subjectId = '"+subjectId+"' AND mailId = '"+mailId+"' ) ",
                 "" );
-        String[] response = new String[6];
+        String[] response = new String[7];
 
         try {
             con = DBUtils.getConnection();
@@ -30,12 +30,13 @@ public class fetchThreadDetails {
 
             if (size>0){
                 rs.next();
-                response[0] = rs.getString("important");
-                response[1] = rs.getString("deleted");
-                response[2] = rs.getString("latestMessageRead");
-                response[3] = rs.getString("isDraft");
-                response[4] = rs.getString("draftMessage");
-                response[5] = rs.getString("draftReceipents");
+                response[0] = rs.getString("subjectName");
+                response[1] = rs.getString("important");
+                response[2] = rs.getString("deleted");
+                response[3] = rs.getString("latestMessageRead");
+                response[4] = rs.getString("isDraft");
+                response[5] = rs.getString("draftMessage");
+                response[6] = rs.getString("draftReceipents");
             }
 
         } catch (Exception e) {

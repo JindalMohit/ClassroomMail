@@ -20,7 +20,7 @@ public class mailInfo {
 
         Label sender = GlyphsDude.createIconLabel( FontAwesomeIcon.USER,
                 senderName,
-                "20",
+                "15",
                 "15",
                 ContentDisplay.LEFT );
         sender.setFont(new Font("Open Sans", 15));
