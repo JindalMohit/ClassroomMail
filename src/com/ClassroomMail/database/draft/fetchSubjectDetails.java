@@ -1,4 +1,4 @@
-package com.ClassroomMail.database.subjectDetails;
+package com.ClassroomMail.database.draft;
 
 import com.ClassroomMail.database.utils.DBUtils;
 

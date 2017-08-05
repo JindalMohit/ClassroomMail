@@ -1,8 +1,10 @@
 package com.ClassroomMail.main.templates;
 
+import com.ClassroomMail.database.draft.updateMailOptions;
 import com.ClassroomMail.main.functions.timeStampChangeFormat;
-import com.ClassroomMail.database.subjectDetails.fetchSubjectDetails;
+import com.ClassroomMail.database.draft.fetchSubjectDetails;
 
+import com.ClassroomMail.main.windows.home.main;
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.geometry.Insets;
@@ -22,35 +24,38 @@ public class mailThread {
 
         String[] response = fetchSubjectDetails.fetchSubjectDetails(subjectId,mailId);
 
-        if (response[1].equals("true")) //checking for deleting thread
-            return null;
+        if (response[1].equals("true")) //checking for deleted thread
+            return new BorderPane();
 
         Label importantTag = new Label();
-        importantTag.setFont(new Font("Open Sans", 20));
-        importantTag.setPadding(new Insets(3,7,3,7));
-        importantTag.setTextFill(Color.web("#fff"));
-        importantTag.setPrefHeight(30);
-        StackPane tag = new StackPane(importantTag);
-        tag.setPadding(new Insets(5));
-
         if(response[0].equals("true")){
-            importantTag.setText("I");
-            importantTag.setStyle("-fx-background-color: #ff4040;");
+            importantTag.setText("i");
+            importantTag.setStyle("-fx-background-color: #FFD700; -fx-border-color: #FFD700; -fx-border-width: 1 1 1 1;");
         }
         else{
-            importantTag.setText(" ");
-            importantTag.setStyle("-fx-background-color: transparent;");
+            importantTag.setText("");
+            importantTag.setStyle("-fx-background-color: transparent; -fx-border-color: grey; -fx-border-width: 1 1 1 1;");
         }
+        importantTag.setFont(new Font("Open Sans", 0));
+        importantTag.setPadding(new Insets(10));
+        importantTag.setTextFill(Color.web("#fff"));
+        importantTag.setPrefWidth(20);
+        StackPane tag = new StackPane(importantTag);
+        tag.setPadding(new Insets(10));
+        tag.setCursor(Cursor.HAND);
 
         Label subject = new Label(subjectName);
-        subject.setFont(new Font("Open Sans", 15));
-        subject.setPadding(new Insets(10));
+        subject.setFont(new Font("Open Sans", 17));
+        subject.setPadding(new Insets(8));
         subject.setTextFill(Color.web("#fff"));
-        subject.setAlignment(Pos.TOP_LEFT);
-        subject.setCursor(Cursor.HAND);
-        subject.setOnMouseClicked(event -> {
-            System.out.println("Open mail");
-        });
+
+        Label lastmessage = new Label(message);
+        lastmessage.setFont(new Font("Open Sans", 12));
+        lastmessage.setPadding(new Insets(12));
+        lastmessage.setTextFill(Color.web("#fff"));
+
+        HBox mailContent = new HBox(5,subject, lastmessage);
+        mailContent.setCursor(Cursor.HAND);
 
         Label delete = GlyphsDude.createIconLabel( FontAwesomeIcon.CLOSE,
                 "",
@@ -67,12 +72,45 @@ public class mailThread {
         lastMessageTime.setTextFill(Color.web("#fff"));
         lastMessageTime.setAlignment(Pos.CENTER_RIGHT);
 
-        BorderPane mails = new BorderPane(null,null,new HBox(0,delete,lastMessageTime),null,new HBox(0, tag,subject));
-
+        final BorderPane mails = new BorderPane(null, null, new HBox(0, delete, lastMessageTime), null, new HBox(0, tag, mailContent));
         if(response[2].equals("true"))
             mails.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 2;");
         else
             mails.setStyle("-fx-background-color: rgba(0, 100, 100, 1); -fx-background-radius: 2;");
+
+        main.window.widthProperty().addListener(e-> mailContent.setPrefWidth(mails.getWidth()-220));
+        mails.widthProperty().addListener(e-> mailContent.setPrefWidth(mails.getWidth()-220));
+
+        tag.setOnMouseClicked(e-> {
+            if (importantTag.getText().equals("i")){
+                String status = updateMailOptions.update(subjectId,mailId,"important", "false");
+                if (status.equals("success")){
+                    importantTag.setText("");
+                    importantTag.setStyle("-fx-background-color: transparent; -fx-border-color: grey; -fx-border-width: 1 1 1 1; ");
+                }
+            }
+            else{
+                String status = updateMailOptions.update(subjectId,mailId,"important", "true");
+                if (status.equals("success")){
+                    importantTag.setText("i");
+                    importantTag.setStyle("-fx-background-color: #FFD700; -fx-border-color: #FFD700; -fx-border-width: 1 1 1 1; ");
+                }
+            }
+        });
+
+        mailContent.setOnMouseClicked(e-> {
+            String status = updateMailOptions.update(subjectId,mailId,"latestMessageRead", "true");
+            if (status.equals("success"))
+                mails.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 2;");
+        });
+
+        delete.setOnMouseClicked(e-> {
+            String status = updateMailOptions.update(subjectId,mailId,"deleted", "true");
+            if (status.equals("success")){
+                mails.getChildren().clear();
+                mails.setPrefWidth(0);
+            }
+        });
 
         return mails;
     }
