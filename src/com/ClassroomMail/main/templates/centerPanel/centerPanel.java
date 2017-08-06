@@ -47,6 +47,7 @@ public class centerPanel {
         scroller.setFitToWidth(true);
         scroller.setVvalue(1.0);
         scroller.vvalueProperty().bind(mailList.heightProperty());
+        scroller.setPrefHeight(main.window.getHeight()-120);
         main.window.heightProperty().addListener(e-> scroller.setPrefHeight(main.window.getHeight()-120));
 
         mails.setTop(scroller);

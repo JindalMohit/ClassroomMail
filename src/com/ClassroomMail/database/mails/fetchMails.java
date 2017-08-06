@@ -2,13 +2,13 @@ package com.ClassroomMail.database.mails;
 
 import com.ClassroomMail.database.draft.fetchThreadDetails;
 import com.ClassroomMail.database.utils.DBUtils;
-import javafx.scene.layout.VBox;
+import static com.ClassroomMail.main.templates.centerPanel.mailThreads.mailThread;
 
+import javafx.scene.layout.VBox;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import static com.ClassroomMail.main.templates.centerPanel.mailThreads.mailThread;
 
 public class fetchMails {
 
@@ -33,17 +33,17 @@ public class fetchMails {
             case "Inbox":
                 tableName = " classroommail.mails ";
                 whereClause = " receiverMail LIKE '%" + mailId + "%' ";
-                otherClause = " GROUP BY subjectId "+filter ;
+                otherClause = " GROUP BY subjectId desc "+filter ;
                 break;
             case "Sent Mail":
                 tableName = " classroommail.mails ";
                 whereClause = "senderMail LIKE '%" + mailId + "%'";
-                otherClause = " GROUP BY subjectId "+filter ;
+                otherClause = " GROUP BY subjectId desc "+filter ;
                 break;
             case "Important":
                 tableName = " classroommail.mails ";
-                whereClause = " receiverMail LIKE '%" + mailId + "%' OR senderMail LIKE '%" + mailId + "%'";
-                otherClause = " GROUP BY subjectId "+filter ;
+                whereClause = " receiverMail LIKE '%" + mailId + "%' OR senderMail = '" + mailId + "'";
+                otherClause = " GROUP BY subjectId desc "+filter ;
                 break;
             case "Drafts":
                 tableName = " classroommail.subjectdetails ";
@@ -53,7 +53,7 @@ public class fetchMails {
             case "Trash":
                 tableName = " classroommail.mails ";
                 whereClause = " receiverMail LIKE '%" + mailId + "%' OR senderMail LIKE '%" + mailId + "%'";
-                otherClause = " GROUP BY subjectId "+filter ;
+                otherClause = " GROUP BY subjectId desc "+filter ;
                 break;
         }
 

@@ -65,6 +65,7 @@ public class mailThreads {
 
         HBox mailContent = new HBox(5,subject, lastmessage);
         mailContent.setCursor(Cursor.HAND);
+        mailContent.setMaxHeight(45);
 
         Label delete ;
         if (title.equals("Trash"))
@@ -89,7 +90,6 @@ public class mailThreads {
         lastMessageTime.setPadding(new Insets(10));
         lastMessageTime.setTextFill(Color.web("#fff"));
         lastMessageTime.setAlignment(Pos.CENTER_RIGHT);
-        lastmessage.setMaxHeight(50);
 
         final BorderPane mails = new BorderPane(null, null, new HBox(0, delete, lastMessageTime), null, new HBox(0, mailThreadstag, mailContent));
         if(response[3].equals("true"))
@@ -97,10 +97,14 @@ public class mailThreads {
         else
             mails.setStyle("-fx-background-color: rgba(0, 100, 100, 1); -fx-border-color: grey; -fx-border-width: 0 0 1 0;");
 
+        final double[] width = {main.window.getWidth() - 200};
+        subject.setMaxWidth(0.4* width[0]);
+        lastmessage.setMaxWidth(0.6* width[0]);
+
         main.window.widthProperty().addListener(e-> {
-            double width = main.window.getWidth()-480;
-            subject.setPrefWidth(0.4*width);
-            lastmessage.setPrefWidth(0.6*width);
+            width[0] = main.window.getWidth()-300;
+            subject.setMaxWidth(0.4* width[0]);
+            lastmessage.setMaxWidth(0.6* width[0]);
         });
 
         mailThreadstag.setOnMouseClicked(e-> {

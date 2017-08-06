@@ -1,6 +1,7 @@
 package com.ClassroomMail.main.templates;
 
 import com.ClassroomMail.main.templates.centerPanel.centerPanel;
+import com.ClassroomMail.main.templates.centerPanel.searchForThread;
 import com.ClassroomMail.main.templates.leftPanel.addToContact;
 import com.ClassroomMail.main.windows.home.main;
 import com.ClassroomMail.database.chat.fetchChatContact;
@@ -21,6 +22,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class profile {
 
     public static Scene scene;
@@ -30,6 +34,7 @@ public class profile {
     public static BorderPane leftPane ;
     public static BorderPane centerPane ;
     public static BorderPane rightPane ;
+    public static final Pattern VALID_STRING_REGEX = Pattern.compile("^\\s*$", Pattern.CASE_INSENSITIVE);
 
     final static BooleanProperty firstTime = new SimpleBooleanProperty(true); // Variable to store the focus on stage load
 
@@ -66,6 +71,14 @@ public class profile {
             if(newValue && firstTime.get()){
                 leftPane.requestFocus(); // Delegate the focus to container
                 firstTime.setValue(false); // Variable value changed for future references
+            }
+        });
+        mailSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!whitespacevalidate(newValue)) {
+                if (myComboBox.getValue().equals("Sort by Latest"))
+                    centerPane.setCenter(searchForThread.search(newValue, emailId, "ORDER BY messageTimestamp desc"));
+                else if (myComboBox.getValue().equals("Sort by Oldest"))
+                    centerPane.setCenter(searchForThread.search(newValue, emailId, "ORDER BY messageTimestamp asc"));
             }
         });
 
@@ -214,5 +227,10 @@ public class profile {
 
         options.getChildren().add(option);
 
+    }
+
+    public static boolean whitespacevalidate(String Str) {
+        Matcher matcher = VALID_STRING_REGEX .matcher(Str);
+        return matcher.find();
     }
 }
