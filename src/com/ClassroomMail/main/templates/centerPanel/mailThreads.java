@@ -24,12 +24,15 @@ public class mailThreads {
 
     public static StackPane mailThreadstag;
 
-    public static BorderPane mailThread(String subjectId, String messageTimestamp, String mailId, String message){
+    public static BorderPane mailThread(String title, String subjectId, String messageTimestamp, String mailId, String message){
 
         String[] response = fetchThreadDetails.fetchSubjectDetails(subjectId,mailId);
 
-        if (response[2].equals("true")) //checking for deleted thread
-            return new BorderPane();
+        if (!title.equals("Trash") && response[2].equals("true")){ //checking for deleted thread
+            BorderPane empty = new BorderPane();
+            empty.setMaxSize(0,0);
+            return empty;
+        }
 
         Label importantTag = new Label();
         if(response[1].equals("true")){
@@ -63,14 +66,23 @@ public class mailThreads {
         HBox mailContent = new HBox(5,subject, lastmessage);
         mailContent.setCursor(Cursor.HAND);
 
-        Label delete = GlyphsDude.createIconLabel( FontAwesomeIcon.CLOSE,
-                "",
-                "20",
-                "0",
-                ContentDisplay.LEFT );
+        Label delete ;
+        if (title.equals("Trash"))
+            delete = GlyphsDude.createIconLabel( FontAwesomeIcon.UNDO,
+                    "",
+                    "20",
+                    "0",
+                    ContentDisplay.LEFT );
+        else
+            delete = GlyphsDude.createIconLabel( FontAwesomeIcon.CLOSE,
+                    "",
+                    "20",
+                    "0",
+                    ContentDisplay.LEFT );
         delete.setPadding(new Insets(10));
         delete.setCursor(Cursor.HAND);
         delete.setAlignment(Pos.BASELINE_RIGHT);
+
 
         Label lastMessageTime = new Label(timeStampChangeFormat.timeStampChangeFormat(messageTimestamp));
         lastMessageTime.setFont(new Font("Open Sans", 12));
@@ -81,9 +93,9 @@ public class mailThreads {
 
         final BorderPane mails = new BorderPane(null, null, new HBox(0, delete, lastMessageTime), null, new HBox(0, mailThreadstag, mailContent));
         if(response[3].equals("true"))
-            mails.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 2;");
+            mails.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-border-color: grey; -fx-border-width: 0 0 1 0;");
         else
-            mails.setStyle("-fx-background-color: rgba(0, 100, 100, 1); -fx-background-radius: 2;");
+            mails.setStyle("-fx-background-color: rgba(0, 100, 100, 1); -fx-border-color: grey; -fx-border-width: 0 0 1 0;");
 
         main.window.widthProperty().addListener(e-> {
             double width = main.window.getWidth()-480;
@@ -113,15 +125,21 @@ public class mailThreads {
             String status = updateThread.update(subjectId,mailId,"latestMessageRead", "true");
             if (status.equals("success")){
                 rightPane.setTop(threadDetail.mailsRightPanel(subjectId,response[0],mailId));
-                mails.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 2;");
+                mails.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 2; -fx-border-color: grey; -fx-border-width: 0 0 1 0;");
             }
         });
 
         delete.setOnMouseClicked(e-> {
-            String status = updateThread.update(subjectId,mailId,"deleted", "true");
+            String status;
+            if (title.equals("Trash"))
+                status = updateThread.update(subjectId,mailId,"deleted", "false");
+            else
+                status = updateThread.update(subjectId,mailId,"deleted", "true");
             if (status.equals("success")){
+                mails.setStyle("-fx-border-width: 0 0 0 0;");
                 mails.getChildren().clear();
-                mails.setPrefWidth(0);
+                mails.setPadding(new Insets(0));
+                mails.setPrefSize(0,0);
             }
         });
 

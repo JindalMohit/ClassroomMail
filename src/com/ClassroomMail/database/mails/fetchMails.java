@@ -18,29 +18,46 @@ public class fetchMails {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        VBox mailList = new VBox(10);
+        VBox mailList = new VBox(0);
 
+        String tableName = "";
         String whereClause = "";
+        String otherClause = "";
+
+        String subjectId;
+        String messageTimestamp;
+        String message;
+        String[] response;
+
         switch (title) {
             case "Inbox":
-            case "Important":
-                whereClause = "receiverMail LIKE '%" + mailId + "%'";
+                tableName = " classroommail.mails ";
+                whereClause = " receiverMail LIKE '%" + mailId + "%' ";
+                otherClause = " GROUP BY subjectId "+filter ;
                 break;
             case "Sent Mail":
+                tableName = " classroommail.mails ";
                 whereClause = "senderMail LIKE '%" + mailId + "%'";
+                otherClause = " GROUP BY subjectId "+filter ;
+                break;
+            case "Important":
+                tableName = " classroommail.mails ";
+                whereClause = " receiverMail LIKE '%" + mailId + "%' OR senderMail LIKE '%" + mailId + "%'";
+                otherClause = " GROUP BY subjectId "+filter ;
                 break;
             case "Drafts":
-                whereClause = "receiverMail LIKE '%" + mailId + "%'";
+                tableName = " classroommail.subjectdetails ";
+                whereClause = " mailId = '" + mailId + "' AND isDraft = 'true' ";
+                otherClause = " ORDER BY draftTimestamp "+ filter.substring(filter.length()-4) ;
                 break;
             case "Trash":
-                whereClause = "receiverMail LIKE '%" + mailId + "%'";
+                tableName = " classroommail.mails ";
+                whereClause = " receiverMail LIKE '%" + mailId + "%' OR senderMail LIKE '%" + mailId + "%'";
+                otherClause = " GROUP BY subjectId "+filter ;
                 break;
         }
 
-        String query = DBUtils.prepareSelectQuery(" * ",
-                "classroommail.mails",
-                whereClause+"",
-                " GROUP BY subjectId "+filter );
+        String query = DBUtils.prepareSelectQuery(" * ",tableName,whereClause,otherClause );
 
         try {
             con = DBUtils.getConnection();
@@ -53,29 +70,37 @@ public class fetchMails {
 
             if (size>0){
                 while (rs.next()){
-                    String subjectId = rs.getString("subjectId");
-                    String messageTimestamp = rs.getString("messageTimestamp");
-                    String message = rs.getString("message");
 
                     switch (title) {
                         case "Inbox":
                         case "Sent Mail":
-                            mailList.getChildren().addAll(mailThread(subjectId, messageTimestamp, mailId, message));
+                            subjectId = rs.getString("subjectId");
+                            messageTimestamp = rs.getString("messageTimestamp");
+                            message = rs.getString("message");
+                            mailList.getChildren().addAll(mailThread(title,subjectId, messageTimestamp, mailId, message));
                             break;
                         case "Important":
-                            String[] response = fetchThreadDetails.fetchSubjectDetails(subjectId, mailId);
-                            if (response[1].equals("true")) {
-                                mailList.getChildren().addAll(mailThread(subjectId, messageTimestamp, mailId, message));
-                            }
-                            break;
-                        case "Drafts": {
+                            subjectId = rs.getString("subjectId");
+                            messageTimestamp = rs.getString("messageTimestamp");
+                            message = rs.getString("message");
                             response = fetchThreadDetails.fetchSubjectDetails(subjectId, mailId);
+                            if (response[1]!=null && response[1].equals("true"))
+                                mailList.getChildren().addAll(mailThread(title,subjectId, messageTimestamp, mailId, message));
                             break;
-                        }
-                        case "Trash": {
+                        case "Drafts":
+                            subjectId = rs.getString("subjectId");
+                            messageTimestamp = rs.getString("draftTimestamp");
+                            message = rs.getString("draftMessage");
+                            mailList.getChildren().addAll(mailThread(title,subjectId, messageTimestamp, mailId, message));
+                            break;
+                        case "Trash":
+                            subjectId = rs.getString("subjectId");
+                            messageTimestamp = rs.getString("messageTimestamp");
+                            message = rs.getString("message");
                             response = fetchThreadDetails.fetchSubjectDetails(subjectId, mailId);
+                            if (response[2]!=null && response[2].equals("true"))
+                                mailList.getChildren().addAll(mailThread(title,subjectId, messageTimestamp, mailId, message));
                             break;
-                        }
                     }
 
                 }
