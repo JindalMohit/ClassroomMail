@@ -1,55 +1,43 @@
 package com.ClassroomMail.main.templates.centerPanel;
 
-import com.ClassroomMail.database.mails.fetchImportantThread;
+import com.ClassroomMail.database.mails.fetchMails;
 import com.ClassroomMail.main.windows.home.main;
 import static com.ClassroomMail.main.templates.profile.*;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
-import com.ClassroomMail.database.mails.fetchInboxThread;
 import javafx.scene.layout.VBox;
 
 public class centerPanel {
 
+    public static String mailIdValue = "";
+    public static String filterValue = "";
+    public static VBox[] mailList = {new VBox()};
+
     public static BorderPane centerPanel(String title, String userMailId, String filter){
+
+        mailIdValue=userMailId;
+        filterValue=filter;
+
         BorderPane mails = new BorderPane();
         mails.setPadding(new Insets(0,30,0,0));
-        final VBox[] mailList = {new VBox()};
 
         switch (title) {
             case "Inbox":
-                mailList[0].getChildren().add(fetchInboxThread.fetchMails(userMailId,filter));
-                myComboBox.valueProperty().addListener((ov, t, t1) -> {
-                    String filt ="";
-                    if (t1.equals("Sort by Latest"))
-                        filt = "ORDER BY messageTimestamp desc";
-                    else if (t1.equals("Sort by Oldest"))
-                        filt = "ORDER BY messageTimestamp asc";
-                    mailList[0].getChildren().clear();
-                    mailList[0].getChildren().add(fetchInboxThread.fetchMails(userMailId,filt));
-                });
+                optionMails("Inbox");
                 break;
             case "Important":
-                mailList[0] = fetchImportantThread.fetchMails(userMailId,filter);
-                myComboBox.valueProperty().addListener((ov, t, t1) -> {
-                    String filt ="";
-                    if (t1.equals("Sort by Latest"))
-                        filt = "ORDER BY messageTimestamp desc";
-                    else if (t1.equals("Sort by Oldest"))
-                        filt = "ORDER BY messageTimestamp asc";
-                    mailList[0].getChildren().clear();
-                    mailList[0].getChildren().add(fetchImportantThread.fetchMails(userMailId,filt));
-                });
+                optionMails("Important");
                 break;
             case "Sent Mail":
-                mailList[0] = new VBox();
+                optionMails("Sent Mail");
                 break;
             case "Drafts":
-                mailList[0] = new VBox();
+                optionMails("Drafts");
                 break;
             case "Trash":
-                mailList[0] = new VBox();
+                optionMails("Trash");
                 break;
         }
 
@@ -65,6 +53,19 @@ public class centerPanel {
 
         return mails;
 
+    }
+
+    public static void optionMails(String option){
+        mailList[0]=fetchMails.fetchMails(option,mailIdValue,filterValue);
+        myComboBox.valueProperty().addListener((ov, t, t1) -> {
+            String filt ="";
+            if (t1.equals("Sort by Latest"))
+                filt = "ORDER BY messageTimestamp desc";
+            else if (t1.equals("Sort by Oldest"))
+                filt = "ORDER BY messageTimestamp asc";
+            mailList[0].getChildren().clear();
+            mailList[0].getChildren().add(fetchMails.fetchMails(option,mailIdValue,filterValue));
+        });
     }
 
 }

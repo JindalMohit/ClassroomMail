@@ -95,7 +95,7 @@ public class profile {
 
         //===================================LEFT PANE STARTS===================================
 
-        options = new VBox(10);
+        options = new VBox(5);
 
         Label compose = new Label("COMPOSE");
         compose.setPadding(new Insets(3,10,3,10));
@@ -106,12 +106,16 @@ public class profile {
         compose.setOnMouseClicked(event -> {
             rightPane.setTop(com.ClassroomMail.main.templates.rightPanel.compose.composeRightPanel(emailId));
         });
-
         options.getChildren().add(compose);
-        leftPane.setTop(options);
 
         String[] option = {"Inbox","Important","Sent Mail","Drafts","Trash"};
         for (String anOption : option) optionLabel(anOption, emailId);
+
+        Label divider = new Label("");
+        divider.setPrefHeight(20);
+        options.getChildren().add(divider);
+
+        leftPane.setTop(options);
 
         Label userName = GlyphsDude.createIconLabel( FontAwesomeIcon.USER,
                 completeName,
@@ -183,21 +187,19 @@ public class profile {
         return scene;
     }
 
-    private static Label optionLabel(String title, String emailId){
+    private static void optionLabel(String title, String emailId){
 
         Label label = new Label(title);
         label.setFont(new Font("Open Sans", 15));
         label.setTextFill(Color.web("#eee"));
         label.setStyle("-fx-background-color: transparent");
-        label.setCursor(Cursor.HAND);
+        label.setPadding(new Insets(5,10,5,10));
 
-        if (title.equals("Trash"))
-            label.setPadding(new Insets(0,0,30,0));
+        StackPane option = new StackPane(label);
+        option.setCursor(Cursor.HAND);
+        option.setAlignment(Pos.CENTER_LEFT);
 
-        options.getChildren().add(label);
-
-        label.setOnMouseClicked(e-> {
-
+        option.setOnMouseClicked(e-> {
             String filter ="";
             if (myComboBox.getValue().equals("Sort by Latest"))
                 filter = "ORDER BY messageTimestamp desc";
@@ -207,8 +209,10 @@ public class profile {
             String finalFilter = filter;
             centerPane.setCenter(centerPanel.centerPanel(title, emailId, finalFilter));
         });
+        option.setOnMouseEntered(event -> option.setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); "));
+        option.setOnMouseExited(event -> option.setStyle("-fx-background-color: transparent; "));
 
-        return label;
+        options.getChildren().add(option);
 
     }
 }

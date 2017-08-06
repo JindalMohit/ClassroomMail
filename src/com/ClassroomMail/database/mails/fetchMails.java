@@ -10,9 +10,9 @@ import java.sql.ResultSet;
 
 import static com.ClassroomMail.main.templates.centerPanel.mailThreads.mailThread;
 
-public class fetchImportantThread {
+public class fetchMails {
 
-    public static VBox fetchMails(String mailId,String filter) {
+    public static VBox fetchMails(String title, String mailId, String filter) {
 
         Connection con = null;
         PreparedStatement stmt = null;
@@ -38,10 +38,14 @@ public class fetchImportantThread {
                     String messageTimestamp = rs.getString("messageTimestamp");
                     String message = rs.getString("message");
 
-                    String[] response = fetchThreadDetails.fetchSubjectDetails(subjectId,mailId);
-
-                    if (response[1].equals("true"))
+                    if (title.equals("Inbox"))
                         mailList.getChildren().addAll(mailThread(subjectId,messageTimestamp,mailId,message));
+                    else if(title.equals("Important")){
+                        String[] response = fetchThreadDetails.fetchSubjectDetails(subjectId,mailId);
+                        if (response[1].equals("true")) {
+                            mailList.getChildren().addAll(mailThread(subjectId,messageTimestamp,mailId,message));
+                        }
+                    }
 
                 }
             }
