@@ -13,7 +13,7 @@ public class centerPanel {
 
     public static String mailIdValue = "";
     public static String filterValue = "";
-    public static VBox[] mailList = {new VBox()};
+    public static VBox mailList = new VBox();
 
     public static BorderPane centerPanel(String title, String userMailId, String filter){
 
@@ -41,12 +41,12 @@ public class centerPanel {
                 break;
         }
 
-        ScrollPane scroller = new ScrollPane(mailList[0]);
+        ScrollPane scroller = new ScrollPane(mailList);
         scroller.setPadding(new Insets(10,0,0,0));
         scroller.setStyle("-fx-background-color: transparent");
         scroller.setFitToWidth(true);
         scroller.setVvalue(1.0);
-        scroller.vvalueProperty().bind(mailList[0].heightProperty());
+        scroller.vvalueProperty().bind(mailList.heightProperty());
         main.window.heightProperty().addListener(e-> scroller.setPrefHeight(main.window.getHeight()-120));
 
         mails.setTop(scroller);
@@ -56,15 +56,16 @@ public class centerPanel {
     }
 
     public static void optionMails(String option){
-        mailList[0]=fetchMails.fetchMails(option,mailIdValue,filterValue);
+        mailList.getChildren().clear();
+        mailList.getChildren().add(fetchMails.fetchMails(option,mailIdValue,filterValue));
         myComboBox.valueProperty().addListener((ov, t, t1) -> {
             String filt ="";
             if (t1.equals("Sort by Latest"))
                 filt = "ORDER BY messageTimestamp desc";
             else if (t1.equals("Sort by Oldest"))
                 filt = "ORDER BY messageTimestamp asc";
-            mailList[0].getChildren().clear();
-            mailList[0].getChildren().add(fetchMails.fetchMails(option,mailIdValue,filterValue));
+            mailList.getChildren().clear();
+            mailList.getChildren().add(fetchMails.fetchMails(option,mailIdValue,filt));
         });
     }
 

@@ -19,8 +19,27 @@ public class fetchMails {
         ResultSet rs = null;
 
         VBox mailList = new VBox(10);
+
+        String whereClause = "";
+        switch (title) {
+            case "Inbox":
+            case "Important":
+                whereClause = "receiverMail LIKE '%" + mailId + "%'";
+                break;
+            case "Sent Mail":
+                whereClause = "senderMail LIKE '%" + mailId + "%'";
+                break;
+            case "Drafts":
+                whereClause = "receiverMail LIKE '%" + mailId + "%'";
+                break;
+            case "Trash":
+                whereClause = "receiverMail LIKE '%" + mailId + "%'";
+                break;
+        }
+
         String query = DBUtils.prepareSelectQuery(" * ",
-                "classroommail.mails", "receiverMail LIKE '%"+mailId+"%'",
+                "classroommail.mails",
+                whereClause+"",
                 " GROUP BY subjectId "+filter );
 
         try {
@@ -38,12 +57,24 @@ public class fetchMails {
                     String messageTimestamp = rs.getString("messageTimestamp");
                     String message = rs.getString("message");
 
-                    if (title.equals("Inbox"))
-                        mailList.getChildren().addAll(mailThread(subjectId,messageTimestamp,mailId,message));
-                    else if(title.equals("Important")){
-                        String[] response = fetchThreadDetails.fetchSubjectDetails(subjectId,mailId);
-                        if (response[1].equals("true")) {
-                            mailList.getChildren().addAll(mailThread(subjectId,messageTimestamp,mailId,message));
+                    switch (title) {
+                        case "Inbox":
+                        case "Sent Mail":
+                            mailList.getChildren().addAll(mailThread(subjectId, messageTimestamp, mailId, message));
+                            break;
+                        case "Important":
+                            String[] response = fetchThreadDetails.fetchSubjectDetails(subjectId, mailId);
+                            if (response[1].equals("true")) {
+                                mailList.getChildren().addAll(mailThread(subjectId, messageTimestamp, mailId, message));
+                            }
+                            break;
+                        case "Drafts": {
+                            response = fetchThreadDetails.fetchSubjectDetails(subjectId, mailId);
+                            break;
+                        }
+                        case "Trash": {
+                            response = fetchThreadDetails.fetchSubjectDetails(subjectId, mailId);
+                            break;
                         }
                     }
 
