@@ -6,7 +6,7 @@ public class property {
     //For production Update DB_URL
 
     public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    public static final String DB_URL = "jdbc:mysql://localhost/prime?useSSL=false";
+    public static final String DB_URL = "jdbc:mysql://localhost/classroommail?useSSL=false";
     public static final String DB_USERNAME = "root";
     public static final String DB_PASSWORD = "root";
 }
