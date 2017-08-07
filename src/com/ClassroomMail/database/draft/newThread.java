@@ -7,11 +7,11 @@ import java.sql.PreparedStatement;
 
 public class newThread {
 
-    public static String saveAsDraft(String subjectId, String mailId, String subjectName, String important, String deleted, String latestMessageRead, String isDraft, String draftMessage, String draftReceipents){
+    public static String saveAsDraft(String subjectId, String mailId, String subjectName, String important, String deleted, String latestMessageRead, String isDraft, String draftMessage, String draftReceipents, String draftTimestamp){
         Connection con = null;
         PreparedStatement stmt = null;
 
-        String addtoDrafts = DBUtils.prepareInsertQuery("classroommail.subjectdetails", "subjectId, mailId, subjectName, important, deleted, latestMessageRead, isDraft, draftMessage, draftReceipents","?,?,?,?,?,?,?,?,?");
+        String addtoDrafts = DBUtils.prepareInsertQuery("classroommail.subjectdetails", "subjectId, mailId, subjectName, important, deleted, latestMessageRead, isDraft, draftMessage, draftReceipents, draftTimestamp","?,?,?,?,?,?,?,?,?,?");
 
         String status = "ongoing";
 
@@ -27,6 +27,7 @@ public class newThread {
             stmt.setString(7, isDraft);
             stmt.setString(8, draftMessage);
             stmt.setString(9, draftReceipents);
+            stmt.setString(10, draftTimestamp);
 
             String[] emailArray = mailId.split(";");
 

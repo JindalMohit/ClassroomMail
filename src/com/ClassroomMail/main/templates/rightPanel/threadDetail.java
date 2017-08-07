@@ -148,8 +148,12 @@ public class threadDetail {
                 if (status.equals("success")){
                     String senderName = getUserName.getUserName(mailId);
                     mailList.getChildren().add(mailInfo.mailInfo(senderName,messageTimestamp,reciepentList,body.getText()));
-                    if (isDraft.equals("true"))
+                    if (isDraft.equals("true")){
                         updateThread.update(subjectId,mailId,"isDraft", "false");
+                        updateThread.update(subjectId,mailId,"draftMessage", "");
+                        updateThread.update(subjectId,mailId,"draftReceipents", "");
+                        updateThread.update(subjectId,mailId,"draftTimestamp", "");
+                    }
                     //no need to update msg and receipents. As isDraft is checked for for them
                     saveDraft.setText("Save Draft");
                     receipents.setText("");
@@ -185,6 +189,9 @@ public class threadDetail {
             updateThread.update(subjectId,mailId,"isDraft", "true");
             updateThread.update(subjectId,mailId,"draftMessage", body.getText());
             updateThread.update(subjectId,mailId,"draftReceipents", reciepentList);
+
+            String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+            updateThread.update(subjectId,mailId,"draftTimestamp", timestamp);
 
             saveDraft.setText("Update Draft");
             error.setTextFill(Color.web("green"));

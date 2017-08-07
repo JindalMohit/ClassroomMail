@@ -170,10 +170,10 @@ public class compose {
             String mailSubject = subject.getText();
             mailSubject = whitespacevalidate(subject.getText()) ? "(no subject)" : mailSubject;
 
-            String composeId = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) +
-                    getMotherboardSN.getMotherboardSN();
+            String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+            String composeId = timestamp + getMotherboardSN.getMotherboardSN();
 
-            String status = newThread.saveAsDraft(composeId,userMailId,mailSubject,markImportant.isSelected()+"","false","true","true",body.getText(), reciepentList );
+            String status = newThread.saveAsDraft(composeId,userMailId,mailSubject,markImportant.isSelected()+"","false","true","true",body.getText(), reciepentList,timestamp );
             if (status.equals("success")){
                 threadProfile.getChildren().clear();
                 threadProfile.setPadding(new Insets(0));

@@ -1,15 +1,14 @@
 package com.ClassroomMail.database.draft;
 
 import com.ClassroomMail.database.utils.DBUtils;
-import javafx.scene.layout.VBox;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class findUserInThread {
+public class fetchNoOfUserInThread {
 
-    public static String finUserInThread(String subjectId, String mailId) {
+    public static int fetchNoOfUserInThread(String subjectId) {
 
         Connection con = null;
         PreparedStatement stmt = null;
@@ -17,7 +16,7 @@ public class findUserInThread {
 
         String query = DBUtils.prepareSelectQuery(" * ",
                 "classroommail.subjectdetails",
-                " ( subjectId = '"+subjectId+"' AND mailId = '"+mailId+"' )");
+                " subjectId = '"+subjectId+"' ");
 
         try {
             con = DBUtils.getConnection();
@@ -25,16 +24,15 @@ public class findUserInThread {
             rs = stmt.executeQuery();
 
             rs.last();
-            int size = rs.getRow();
-            if (size>0)
-                return "true";
+            return rs.getRow();
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             DBUtils.closeAll(rs, stmt, con);
         }
-        return "false";
+        return -1;
     }
+
 
 }

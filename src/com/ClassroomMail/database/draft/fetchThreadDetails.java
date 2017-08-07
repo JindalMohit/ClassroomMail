@@ -17,7 +17,7 @@ public class fetchThreadDetails {
         String query = DBUtils.prepareSelectQuery(" * ",
                 "classroommail.subjectdetails", " ( subjectId = '"+subjectId+"' AND mailId = '"+mailId+"' ) ",
                 "" );
-        String[] response = new String[7];
+        String[] response = new String[8];
 
         try {
             con = DBUtils.getConnection();
@@ -37,6 +37,7 @@ public class fetchThreadDetails {
                 response[4] = rs.getString("isDraft");
                 response[5] = rs.getString("draftMessage");
                 response[6] = rs.getString("draftReceipents");
+                response[7] = rs.getString("draftTimestamp");
             }
 
         } catch (Exception e) {

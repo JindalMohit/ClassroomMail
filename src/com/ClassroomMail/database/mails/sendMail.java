@@ -1,8 +1,6 @@
 package com.ClassroomMail.database.mails;
 
-import com.ClassroomMail.database.draft.findUserInThread;
-import com.ClassroomMail.database.draft.newThread;
-import com.ClassroomMail.database.draft.updateThread;
+import com.ClassroomMail.database.draft.*;
 import com.ClassroomMail.database.utils.DBUtils;
 
 import java.sql.Connection;
@@ -29,11 +27,11 @@ public class sendMail {
             stmt.executeUpdate();
 
             if (source.equals("compose")){
-                newThread.saveAsDraft(subjectId,receiverMail,subjectName,markimportant,"false","false","false","","");
+                newThread.saveAsDraft(subjectId,receiverMail,subjectName,markimportant,"false","false","false","","","");
 
                 String isPresent = findUserInThread.finUserInThread(subjectId,senderMail); //whether user already present in receiver ,ail
-                if (isPresent.equals("false")){}
-                    newThread.saveAsDraft(subjectId,senderMail,subjectName,markimportant,"false","true","false","","");
+                if (isPresent.equals("false"))
+                    newThread.saveAsDraft(subjectId,senderMail,subjectName,markimportant,"false","true","false","","","");
             }
             else{       //as a reply
                 //making latest message read here as false for receiver entries
@@ -47,8 +45,14 @@ public class sendMail {
                             updateThread.update(subjectId,mail,"latestMessageRead", "false");
                             updateThread.update(subjectId,mail,"deleted", "false"); //if user deleted your data
                         }
-                        else
-                            newThread.saveAsDraft(subjectId,mail,"Fwd: "+subjectName,markimportant,"false","false","false","","");
+                        else{
+                            //checking whether mail was sent first time from draft
+                            if (fetchNoOfUserInThread.fetchNoOfUserInThread(subjectId)==1)
+                                newThread.saveAsDraft(subjectId,mail,subjectName,markimportant,"false","false","false","","","");
+                            //Or this mail is just reply from draft in that thread
+                            else
+                                newThread.saveAsDraft(subjectId,mail,"Re: "+subjectName,markimportant,"false","false","false","","","");
+                        }
                     }
                 }
             }
