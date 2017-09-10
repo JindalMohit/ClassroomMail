@@ -1,5 +1,6 @@
 package com.ClassroomMail.main.templates;
 
+import com.ClassroomMail.database.signIn.userSignOut;
 import com.ClassroomMail.main.templates.centerPanel.centerPanel;
 import com.ClassroomMail.main.templates.centerPanel.searchForThread;
 import com.ClassroomMail.main.templates.leftPanel.addToContact;
@@ -97,7 +98,17 @@ public class profile {
             }
         });
 
-        HBox filterCombo = new HBox(myComboBox);
+        Label logout = new Label("logout");
+        logout.setFont(new Font("Open Sans", 15));
+        logout.setTextFill(Color.web("#ededed"));
+        logout.setPadding(new Insets(5,0,0,0));
+        logout.setCursor(Cursor.HAND);
+        logout.setOnMouseClicked(e-> {
+            userSignOut.userSignOut();
+            main.window.setScene(loginHome.homeView());
+        });
+
+        HBox filterCombo = new HBox(20, myComboBox,logout);
         filterCombo.setPadding(new Insets(5,0,0,30));
 
         topPane.setLeft(title);
