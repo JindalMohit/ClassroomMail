@@ -23,7 +23,7 @@ public class userLoggedIn {
             rs = stmt.executeQuery();
             if (rs.next()){
                 status[0]="success";
-                status[1]=rs.getString("fullName");
+                status[1]=rs.getString("FirstName");
                 status[2]=rs.getString("emailId");
             }
         } catch (Exception e) {

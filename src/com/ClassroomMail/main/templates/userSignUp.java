@@ -37,17 +37,25 @@ public class userSignUp {
         VBox vb = new VBox(15);
         vb.setPadding(new Insets(20,20,20,20));
 
-        TextField fullName = new TextField();
-        fullName.setFont(new Font("Open Sans", 15));
-        fullName.setPromptText("Full Name");
-        fullName.setPrefHeight(30);
-        fullName.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
-        fullName.focusedProperty().addListener((observable,  oldValue,  newValue) -> {
+        TextField FirstName = new TextField();
+        FirstName.setFont(new Font("Open Sans", 15));
+        FirstName.setPromptText("First Name");
+        FirstName.setPrefHeight(30);
+        FirstName.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
+        FirstName.focusedProperty().addListener((observable,  oldValue,  newValue) -> {
             if(newValue && firstTime.get()){
                 signUpPane.requestFocus(); // Delegate the focus to container
                 firstTime.setValue(false); // Variable value changed for future references
             }
         });
+
+        TextField LastName = new TextField();
+        LastName.setFont(new Font("Open Sans", 15));
+        LastName.setPromptText("Last Name");
+        LastName.setPrefHeight(30);
+        LastName.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
+
+
 
         TextField email = new TextField();
         email.setFont(new Font("Open Sans", 15));
@@ -67,6 +75,25 @@ public class userSignUp {
         confirmPassword.setPrefHeight(30);
         confirmPassword.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
 
+        TextField gender = new TextField();
+        gender.setFont(new Font("Open Sans", 15));
+        gender.setPromptText("Gender");
+        gender.setPrefHeight(30);
+        gender.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
+
+        TextField location = new TextField();
+        location.setFont(new Font("Open Sans", 15));
+        location.setPromptText("Location");
+        location.setPrefHeight(30);
+        location.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
+
+        TextField contact = new TextField();
+        contact.setFont(new Font("Open Sans", 15));
+        contact.setPromptText("contact number");
+        contact.setPrefHeight(30);
+        contact.setStyle("-fx-background-color: transparent; -fx-border-color: #ededed; -fx-border-width: 2,2,2,2; -fx-border-radius: 200; -fx-text-inner-color: #ededed;");
+
+
         Label error = new Label();
         error.setTextFill(Color.web("red"));
 
@@ -79,8 +106,10 @@ public class userSignUp {
         signUpRow.setAlignment(Pos.BASELINE_CENTER);
 
         signUpButton.setOnAction(e-> {
-            if (fullName.getText().isEmpty())
+            if (FirstName.getText().isEmpty())
                 error.setText("Full Name can't be empty");
+            else if (LastName.getText().isEmpty())
+                error.setText("Last Name can't be empty");
             else if (email.getText().isEmpty())
                 error.setText("Email Id can't be empty");
             else if (!validate(email.getText()))
@@ -92,9 +121,9 @@ public class userSignUp {
             else if (!password.getText().equals(confirmPassword.getText()))
                 error.setText("Password and confirm password don't match");
             else{
-                status = dbSignUp.userSignUp(fullName.getText(),email.getText(),password.getText());
+                status = dbSignUp.userSignUp(FirstName.getText(),LastName.getText(),email.getText(),password.getText(),gender.getText(),contact.getText(),location.getText());
                 if (Objects.equals(status, "success")) {
-                    main.window.setScene(profile.main(fullName.getText(), email.getText()));
+                    main.window.setScene(profile.main(FirstName.getText(), email.getText()));
                 }
                 else
                     error.setText(status);
@@ -117,7 +146,7 @@ public class userSignUp {
             new Thread(sleeper).start();
         });
 
-        vb.getChildren().addAll(fullName, email, password, confirmPassword, error, signUpRow);
+        vb.getChildren().addAll(FirstName,LastName,email, password, confirmPassword, gender,contact, location, error, signUpRow);
         signUpPane.setCenter(vb);
         signUpPane.setMinHeight(400);
 

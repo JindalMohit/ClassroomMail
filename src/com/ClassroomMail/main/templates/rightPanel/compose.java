@@ -77,13 +77,21 @@ public class compose {
         subject.setPadding(new Insets(10,0,10,0));
 
         TextArea body = new TextArea();
-        body.setPromptText("Your messag here");
+        body.setPromptText("Your message here");
         body.setFont(new Font("Open Sans", 15));
-        body.setPrefHeight(main.window.getHeight()-400);
+        body.setPrefHeight(main.window.getHeight()-475);
         main.window.heightProperty().addListener(e-> body.setPrefHeight(main.window.getHeight()-400));
         body.setWrapText(true);
         body.setStyle("-fx-background-color: transparent; -fx-text-inner-color: #eee;  -fx-border-color: grey; -fx-border-width: 0 0 1 0; ");
         body.setPadding(new Insets(10,0,10,0));
+
+        TextArea attachmentType = new TextArea();
+        attachmentType.setPromptText("Attachment type");
+        attachmentType.setFont(new Font("Open Sans", 15));
+        attachmentType.setPrefHeight(15);
+        attachmentType.setWrapText(true);
+        attachmentType.setStyle("-fx-background-color: transparent; -fx-text-inner-color: #eee;  -fx-border-color: grey; -fx-border-width: 0 0 1 0; ");
+        attachmentType.setPadding(new Insets(10,0,10,0));
 
         Button sendButton = new Button("Send");
         sendButton.setFont(new Font("Open Sans", 15));
@@ -200,7 +208,7 @@ public class compose {
             new Thread(sleeper).start();
         });
 
-        VBox messageDetail = new VBox(0, receipents, subject, body, error, action);
+        VBox messageDetail = new VBox(0, receipents, subject, body, attachmentType, error, action);
 
         threadProfile.setCenter(messageDetail);
 

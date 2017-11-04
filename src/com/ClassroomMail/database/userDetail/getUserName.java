@@ -9,13 +9,13 @@ import java.sql.ResultSet;
 public class getUserName {
 
         public static String getUserName(String mailId) {
-            String fullName="";
+            String FirstName="";
 
             Connection con = null;
             PreparedStatement stmt = null;
             ResultSet rs = null;
 
-            String query = DBUtils.prepareSelectQuery(" fullName ",
+            String query = DBUtils.prepareSelectQuery(" FirstName ",
                     "classroommail.userdetail",
                     " emailId = '"+mailId+"' ",
                     "" );
@@ -32,17 +32,17 @@ public class getUserName {
                 if (size>0){
                     int count = 1;
                     rs.next();
-                    fullName = rs.getString("fullName");
+                    FirstName = rs.getString("FirstName");
                 }
                 else
-                    fullName ="No results found";
+                    FirstName ="No results found";
 
             } catch (Exception e) {
-                fullName = e.getMessage();
+                FirstName = e.getMessage();
                 e.printStackTrace();
             } finally {
                 DBUtils.closeAll(rs, stmt, con);
-                return fullName;
+                return FirstName;
             }
         }
 
