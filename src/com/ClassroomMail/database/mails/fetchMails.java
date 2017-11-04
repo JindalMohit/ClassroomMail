@@ -33,17 +33,17 @@ public class fetchMails {
             case "Inbox":
                 tableName = " classroommail.mails ";
                 whereClause = " receiverMail LIKE '%" + mailId + "%' ";
-                otherClause = " GROUP BY subjectId desc "+filter ;
+                otherClause = filter ;
                 break;
             case "Sent Mail":
                 tableName = " classroommail.mails ";
                 whereClause = "senderMail LIKE '%" + mailId + "%'";
-                otherClause = " GROUP BY subjectId desc "+filter ;
+                otherClause = filter ;
                 break;
             case "Important":
                 tableName = " classroommail.mails ";
                 whereClause = " receiverMail LIKE '%" + mailId + "%' OR senderMail = '" + mailId + "'";
-                otherClause = " GROUP BY subjectId desc "+filter ;
+                otherClause = filter ;
                 break;
             case "Drafts":
                 tableName = " classroommail.subjectdetails ";
@@ -53,7 +53,7 @@ public class fetchMails {
             case "Trash":
                 tableName = " classroommail.mails ";
                 whereClause = " receiverMail LIKE '%" + mailId + "%' OR senderMail LIKE '%" + mailId + "%'";
-                otherClause = " GROUP BY subjectId desc "+filter ;
+                otherClause = filter ;
                 break;
         }
 
