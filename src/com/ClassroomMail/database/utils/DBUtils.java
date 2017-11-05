@@ -125,6 +125,7 @@ public class DBUtils {
             whereClause = "";
         else
             whereClause = " WHERE " + whereClause;
+        System.out.println("SELECT " + columns + " FROM " + tableName + whereClause);
         return "SELECT " + columns + " FROM " + tableName + whereClause;
     }
 
@@ -135,6 +136,7 @@ public class DBUtils {
             whereClause = "";
         else
             whereClause = " WHERE " + whereClause;
+        System.out.println("SELECT " + columns + " FROM " + tableName + whereClause + " " + otherClause);
         return "SELECT " + columns + " FROM " + tableName + whereClause + " " + otherClause;
     }
 
@@ -147,6 +149,7 @@ public class DBUtils {
             values = "";
         else
             values = " VALUES (" + values + ")";
+        System.out.println("INSERT INTO " + tableName + columns + values);
         return "INSERT INTO " + tableName + columns + values;
     }
 
@@ -157,6 +160,7 @@ public class DBUtils {
             whereClause = "";
         else
             whereClause = " WHERE " + whereClause;
+        System.out.println("UPDATE " + tableName + " SET " + setCondition + whereClause);
         return "UPDATE " + tableName + " SET " + setCondition + whereClause;
     }
 
