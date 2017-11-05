@@ -5,6 +5,7 @@ import com.ClassroomMail.database.draft.updateThread;
 import com.ClassroomMail.database.mails.fetchThreadMails;
 import com.ClassroomMail.database.mails.sendMail;
 import com.ClassroomMail.database.userDetail.getUserName;
+import com.ClassroomMail.database.utils.DBUtils;
 import com.ClassroomMail.main.windows.home.main;
 
 import de.jensd.fx.glyphs.GlyphsDude;
@@ -20,6 +21,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -91,18 +96,24 @@ public class threadDetail {
         TextArea body = new TextArea();
         if (isDraft.equals("true"))
             body.setText(draftMessage);
-        body.setPromptText("Your messag here");
+        body.setPromptText("Your message here");
         body.setFont(new Font("Open Sans", 13));
         body.setPrefHeight(100);
         body.setWrapText(true);
         body.setStyle("-fx-background-color: rgba(0, 100, 100, 0.7); -fx-text-inner-color: #fff;  -fx-border-color: grey; -fx-border-width: 0.5 0 1 0; ");
         body.setPadding(new Insets(5));
 
-        Button replyButton = new Button("Reply");
+        Button replyButton = new Button("Send");
         replyButton.setFont(new Font("Open Sans", 12));
         replyButton.setStyle("-fx-focus-color: transparent;-fx-background-color: #6ac045;");
         replyButton.setTextFill(Color.web("#171717"));
         replyButton.setCursor(Cursor.HAND);
+
+        Button forwardButton = new Button("Forward");
+        forwardButton.setFont(new Font("Open Sans", 12));
+        forwardButton.setStyle("-fx-focus-color: transparent;-fx-background-color: #6ac045;");
+        forwardButton.setTextFill(Color.web("#171717"));
+        forwardButton.setCursor(Cursor.HAND);
 
         String draftTile = null;
         if (isDraft.equals("true"))
@@ -123,13 +134,76 @@ public class threadDetail {
         saveDraftPane.setStyle("-fx-background-color: #FF4646; -fx-background-radius: 3;");
         saveDraftPane.setCursor(Cursor.HAND);
 
-        BorderPane action = new BorderPane(null,null,saveDraftPane,null,replyButton);
+        BorderPane action = new BorderPane(forwardButton,null,saveDraftPane,null,replyButton);
         action.setPadding(new Insets(3,5,0,5));
 
         Label error = new Label();
         error.setPrefHeight(10);
         error.setTextFill(Color.web("red"));
         error.setPadding(new Insets(3,0,0,0));
+
+        forwardButton.setOnAction(e-> {
+            e.consume();
+
+            String reciepentList = receipents.getText();
+            reciepentList = reciepentList.replaceAll("\\s","");
+
+            if (receipents.getText().isEmpty())
+                error.setText("Receipents can't be empty");
+            else if (!mailvalidate(reciepentList))
+                error.setText("Receipents Email ID incorrect");
+            else {
+                String messageTimestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                String query = DBUtils.prepareSelectQuery(" * ","classroommail.mails",
+                        "senderMail LIKE '%" + mailId + "%' and" +
+                                " messageTimestamp >= all (SELECT messageTimestamp FROM classroommail.mails WHERE senderMail LIKE '%"+ mailId +"%')");
+
+                String prevMsg = "";
+//                System.out.println(query);
+                try {
+                    Connection con = DBUtils.getConnection();
+                    PreparedStatement stmt = con.prepareStatement(query);
+                    ResultSet rs = stmt.executeQuery();
+
+                    rs.last();
+                    int size = rs.getRow();
+                    rs.beforeFirst();
+
+                    if (size>0){
+                        while (rs.next()){
+                            prevMsg = rs.getString("message");
+                        }
+                    }
+                } catch (SQLException er) {
+                    System.out.println(er.toString());
+                }
+                String status = sendMail.sendMail(messageTimestamp,subjectId,subjectName,mailId,reciepentList,body.getText()+"\n-----\n"+prevMsg, response[1],"forward");
+                if (status.equals("success")) {
+                    String senderName = getUserName.getUserName(mailId);
+                    mailList.getChildren().add(mailInfo.mailInfo(senderName,messageTimestamp,reciepentList,body.getText()));
+                }
+                else
+                    error.setText(status);
+            }
+
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            };
+            sleeper.setOnSucceeded(ee-> {
+                error.setTextFill(Color.web("red"));
+                error.setText("");
+            });
+            new Thread(sleeper).start();
+
+        });
 
         replyButton.setOnAction(e-> {
             e.consume();

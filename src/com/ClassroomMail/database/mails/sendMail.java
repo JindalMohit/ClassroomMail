@@ -50,6 +50,8 @@ public class sendMail {
                             if (fetchNoOfUserInThread.fetchNoOfUserInThread(subjectId)==1)
                                 newThread.saveAsDraft(subjectId,mail,subjectName,markimportant,"false","false","false","","","");
                             //Or this mail is just reply from draft in that thread
+                            else if(source.equals("forward"))
+                                newThread.saveAsDraft(subjectId,mail,"Fwd: "+subjectName,markimportant,"false","false","false","","","");
                             else
                                 newThread.saveAsDraft(subjectId,mail,"Re: "+subjectName,markimportant,"false","false","false","","","");
                         }
